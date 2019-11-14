@@ -6,7 +6,7 @@ spark_context = pyspark.SparkContext()
 spark_session = pyspark.sql.SparkSession(spark_context)
 
 # load csv file into dataframe
-df = spark_session.read.csv("../nhousing.csv", header=False, inferSchema=True)
+df = spark_session.read.csv("boston_housing.csv", header=False, inferSchema=True)
 df.show()
 
 # rename the columns to be more descriptive

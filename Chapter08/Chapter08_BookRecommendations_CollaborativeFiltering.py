@@ -6,7 +6,7 @@ spark_context = pyspark.SparkContext()
 spark_session = pyspark.sql.SparkSession(spark_context)
 
 # load csv file into dataframe
-df = spark_session.read.csv("../ratings.csv", header=True,                    sep=",", inferSchema=True)
+df = spark_session.read.csv("ratings.csv", header=True,                    sep=",", inferSchema=True)
 df.show()
 
 # Print the schema to get the column names
@@ -50,7 +50,7 @@ userRecs = model.recommendForAllUsers(10)
 userRecs.show()
 
 # Load the books CSV
-books_df = spark_session.read.csv("../books.csv", header=True,                    sep=",", inferSchema=True)
+books_df = spark_session.read.csv("books.csv", header=True,                    sep=",", inferSchema=True)
 
 # Grab the first user's recommendations, and get the book names
 recs = userRecs.first().recommendations
