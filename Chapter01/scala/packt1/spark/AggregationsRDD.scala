@@ -64,9 +64,6 @@ object AggregationsRDD {
     println(averages.take(5).toList)
     // List((Mephistopheles,,13.0), (pate,11.0), (vibrating,12.5), (Ah!,13.5), (better.,11.5))
 
-    println("**********")
-    tokenWithNeighbours.take(15).foreach(println(_))
-
   }
 
 }
