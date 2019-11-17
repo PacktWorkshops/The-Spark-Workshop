@@ -4,7 +4,6 @@ import org.apache.hadoop.fs.Path;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -14,7 +13,7 @@ public class UtilitiesJava {
     public static String separator = File.separator;
     private static String novellaLocation = "/Users/a/IdeaProjects/The-Spark-Workshop/resources/mapreduce/HoD.txt"; // ToDo: Specify
     public static Path novellaPath = new Path(novellaLocation);
-    
+
     public static StringTokenizer tokenizeSimple(String text) {
         StringTokenizer tokenizer = new StringTokenizer(text);
         return tokenizer;
@@ -36,7 +35,7 @@ public class UtilitiesJava {
         return bigrams;
     }
 
-    public static void main(String... args) throws MalformedURLException {
+    public static void main(String... args) {
         System.out.println("Test");
     }
 }
