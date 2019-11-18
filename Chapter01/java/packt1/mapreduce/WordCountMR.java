@@ -14,6 +14,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import static packt1.UtilitiesJava.tokenizeSimple;
 import static packt1.UtilitiesJava.novellaPath;
+import static packt1.UtilitiesJava.separator;
 /**
  * Implementation of WordCount in MapReduce
  *
@@ -59,7 +60,7 @@ public class WordCountMR {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(LongWritable.class);
         FileInputFormat.addInputPath(job, novellaPath);
-        FileOutputFormat.setOutputPath(job, new Path("./wordcounts")); // ToDo: Specify output path
+        FileOutputFormat.setOutputPath(job, new Path("." + separator + "wordcounts")); // ToDo: Specify output path
         System.exit(job.waitForCompletion(true) ? 0 : 1); // actual launch
     }
 }

@@ -3,7 +3,6 @@ package packt1;
 import org.apache.hadoop.fs.Path;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;

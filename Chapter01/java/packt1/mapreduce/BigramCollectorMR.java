@@ -11,6 +11,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import static packt1.UtilitiesJava.separator;
 import packt1.UtilitiesJava;
 
 import static packt1.UtilitiesJava.novellaPath;
@@ -54,7 +55,7 @@ public class BigramCollectorMR {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(NullWritable.class);
         FileInputFormat.addInputPath(job, novellaPath);
-        FileOutputFormat.setOutputPath(job, new Path("./bigrams"));   // ToDo: Specify output path
+        FileOutputFormat.setOutputPath(job, new Path("." + separator + "bigrams"));   // ToDo: Specify output path
         System.exit(job.waitForCompletion(true) ? 0 : 1); // actual launch
     }
 
