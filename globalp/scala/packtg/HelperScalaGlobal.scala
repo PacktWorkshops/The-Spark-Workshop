@@ -1,0 +1,7 @@
+package packtg
+
+object HelperScalaGlobal {
+
+
+
+}
