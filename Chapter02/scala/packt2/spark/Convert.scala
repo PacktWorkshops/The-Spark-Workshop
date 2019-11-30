@@ -11,8 +11,8 @@ object Convert extends App {
   import org.apache.spark.sql._
   import session.implicits._
 
-  val inputLocationWet = CorpusParsingWet.getClass.getResource("/spark/webcorpus/warc.wet.sample").getPath
-  val inputLocationWarc = CorpusParsingWet.getClass.getResource("/spark/webcorpus/warc.sample").getPath
+  val inputLocationWet = ParsingWet.getClass.getResource("/spark/webcorpus/wet.sample").getPath
+  val inputLocationWarc = ParsingWet.getClass.getResource("/spark/webcorpus/warc.sample").getPath
 
   val wetRDD: RDD[WetRecord] = extractWarcRecords(inputLocationWet)
     .flatMap(parseRawWetRecord(_))

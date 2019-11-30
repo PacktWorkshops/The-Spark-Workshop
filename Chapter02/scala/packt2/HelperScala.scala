@@ -18,6 +18,9 @@ object HelperScala {
 
   val novellaLocation = "src/main/resources/mapreduce/HoD.txt" // location of input for word count programs
 
+  val sampleWarcLoc = "/Users/a/IdeaProjects/The-Spark-Workshop/resources/spark/webcorpus/warc.sample"
+  val sampleWetLoc = "/Users/a/IdeaProjects/The-Spark-Workshop/resources/spark/webcorpus/wet.sample"
+
   val delimiterWarcWet = "WARC/1.0" // Wrong => Exception in thread "main" org.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 0.0 failed 1 times, most recent failure: Lost task 0.0 in stage 0.0 (TID 0, localhost, executor driver): java.lang.OutOfMemoryError: Java heap space
   val delimiterWarcWetBytes: Array[Byte] = delimiterWarcWet.getBytes()
   val blankLine: Regex = "(?m:^(?=[\r\n]))".r
@@ -35,13 +38,13 @@ object HelperScala {
     session
   }
 
-  def extractWarcRecords(inputLocationWarc: String)(implicit session: SparkSession): RDD[Text] = {
+  def extractWarcRecords(warcLoc: String)(implicit session: SparkSession): RDD[Text] = {
     val hadoopConf = session.sparkContext.hadoopConfiguration
     hadoopConf.set("textinputformat.record.delimiter", delimiterWarcWet)
 
     val warcRecords: RDD[Text] = session
       .sparkContext
-      .newAPIHadoopFile(inputLocationWarc, classOf[TextInputFormat], classOf[LongWritable], classOf[Text], hadoopConf)
+      .newAPIHadoopFile(warcLoc, classOf[TextInputFormat], classOf[LongWritable], classOf[Text], hadoopConf)
       .map(_._2)
     warcRecords
   }
@@ -65,7 +68,7 @@ object HelperScala {
       None
     }
     else {
-      val matchStarts = matches.map(_.end).toList // get end points of matches, only first two elements are relevant
+      val matchStarts: List[Int] = matches.map(_.end).toList // get end points of matches, only first two elements are relevant
       val docStart = matchStarts(0) // start of record
       val boundary = matchStarts(1) // end of meta section
       val rawMetaInfo = rawContent.substring(docStart, boundary).trim
@@ -87,8 +90,7 @@ object HelperScala {
     metaEntries
   }
 
-  def extractResponseMetaInfo(responseMeta: String): (String, Option[String], Int) = {
-    val metaEntries = mutable.Map.empty[String, String]
+  def extractResponseMeta(responseMeta: String): (String, Option[String], Int) = {
     val fields = responseMeta.split(newLine) // split string on newlines
     var contentType, language = ""
     var contentLength = -1
@@ -119,12 +121,12 @@ object HelperScala {
       val matchStarts = matches.map(_.end).toList // get end points of matches, only first two elements are relevant
       val docStart = matchStarts.head // start of record
       val metaBoundary = matchStarts(1) // end of meta section
-      val serverBoundary = matchStarts(2) // end of server meta section
+      val responseBoundary = matchStarts(2) // end of response meta section
       val rawMetaInfo = rawContent.substring(docStart, metaBoundary).trim
       val metaPairs = extractWarcMetaInfo(rawMetaInfo)
-      val responseMeta = rawContent.substring(metaBoundary + 1, serverBoundary).trim
-      val responseMetaTriple = extractResponseMetaInfo(responseMeta)
-      val pageContent = rawContent.substring(serverBoundary + 1).trim
+      val responseMeta = rawContent.substring(metaBoundary + 1, responseBoundary).trim
+      val responseMetaTriple = extractResponseMeta(responseMeta)
+      val pageContent = rawContent.substring(responseBoundary + 1).trim
         .replaceAll("(\\r?\\n)+", " ")
       Some(WarcRecord(metaPairs, responseMetaTriple, pageContent))
     }
