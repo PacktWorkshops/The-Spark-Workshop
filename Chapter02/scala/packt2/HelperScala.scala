@@ -38,7 +38,10 @@ object HelperScala {
     session
   }
 
-  def extractWarcRecords(warcLoc: String)(implicit session: SparkSession): RDD[Text] = {
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  def extractRawRecords(warcLoc: String)(implicit session: SparkSession): RDD[Text] = {
     val hadoopConf = session.sparkContext.hadoopConfiguration
     hadoopConf.set("textinputformat.record.delimiter", delimiterWarcWet)
 
@@ -50,37 +53,7 @@ object HelperScala {
   }
 
   // helper function for extracting meta info
-  def extractWetMetaInfo(rawMetaInfo: String) = {
-    val metaEntries = mutable.Map.empty[String, String]
-    val fields = rawMetaInfo.split(newLine) // split string on newlines
-    for (field <- fields) {
-      val keyValue = field.split(":")
-      metaEntries(keyValue(0).trim) = keyValue.slice(1, keyValue.length).mkString(":").trim
-    }
-    metaEntries
-  }
-
-  // parses raw WarcWet records into domain objects of type spark.WarcRecord
-  def parseRawWetRecord(text: Text): Option[WetRecord] = {
-    val rawContent = text.toString // key is a line number which is is useless
-    val matches = blankLine.findAllMatchIn(rawContent)
-    if (matches.isEmpty) { // malformed record, skip
-      None
-    }
-    else {
-      val matchStarts: List[Int] = matches.map(_.end).toList // get end points of matches, only first two elements are relevant
-      val docStart = matchStarts(0) // start of record
-      val boundary = matchStarts(1) // end of meta section
-      val rawMetaInfo = rawContent.substring(docStart, boundary).trim
-      val metaPairs = extractWetMetaInfo(rawMetaInfo)
-      val pageContent = rawContent.substring(boundary + 1).trim
-        .replaceAll("(\\r?\\n)+", " ")
-      Some(WetRecord(metaPairs, pageContent))
-    }
-  }
-
-  // helper function for extracting meta info
-  def extractWarcMetaInfo(rawMetaInfo: String): mutable.Map[String, String] = {
+  def extractMetaInfo(rawMetaInfo: String): mutable.Map[String, String] = {
     val metaEntries = mutable.Map.empty[String, String]
     val fields = rawMetaInfo.split(newLine) // split string on newlines
     for (field <- fields) {
@@ -94,14 +67,12 @@ object HelperScala {
     val fields = responseMeta.split(newLine) // split string on newlines
     var contentType, language = ""
     var contentLength = -1
-
     for (field <- fields) {
       if (field.startsWith("Content-Type:")) {
         contentType = field.substring(14).trim
       }
       else if (field.startsWith("Content-Language:")) {
         language = field.substring(17).trim
-
       }
       else if (field.startsWith("Content-Length:")) {
         contentLength = field.substring(15).trim.toInt
@@ -111,19 +82,19 @@ object HelperScala {
   }
 
   // parses raw WarcWet records into domain objects of type spark.WarcRecord
-  def parseRawWarcRecord(text: Text): Option[WarcRecord] = {
+  def parseRawWarc(text: Text): Option[WarcRecord] = {
     val rawContent = text.toString
     val matches = blankLine.findAllMatchIn(rawContent.toString)
     if (matches.isEmpty) { // malformed record, skip
       None
     }
     else {
-      val matchStarts = matches.map(_.end).toList // get end points of matches, only first two elements are relevant
+      val matchStarts: List[Int] = matches.map(_.end).toList // get end points of matches, only first two elements are relevant
       val docStart = matchStarts.head // start of record
       val metaBoundary = matchStarts(1) // end of meta section
-      val responseBoundary = matchStarts(2) // end of response meta section
       val rawMetaInfo = rawContent.substring(docStart, metaBoundary).trim
-      val metaPairs = extractWarcMetaInfo(rawMetaInfo)
+      val metaPairs = extractMetaInfo(rawMetaInfo)
+      val responseBoundary = matchStarts(2) // end of response meta section
       val responseMeta = rawContent.substring(metaBoundary + 1, responseBoundary).trim
       val responseMetaTriple = extractResponseMeta(responseMeta)
       val pageContent = rawContent.substring(responseBoundary + 1).trim
@@ -132,14 +103,38 @@ object HelperScala {
     }
   }
 
+  // parses raw WarcWet records into domain objects of type spark.WarcRecord
+  def parseRawWetRecord(text: Text): Option[WetRecord] = {
+    val rawContent = text.toString // key is a line number which is is useless
+    val matches = blankLine.findAllMatchIn(rawContent)
+    if (matches.isEmpty) { // malformed record, skip
+      None
+    }
+    else {
+      val matchStarts: List[Int] = matches.map(_.end).toList // get end points of matches, only first two elements are relevant
+      val docStart = matchStarts.head // start of record
+      val boundary = matchStarts(1) // end of meta section
+      val rawMetaInfo = rawContent.substring(docStart, boundary).trim
+      val metaPairs = extractMetaInfo(rawMetaInfo)
+      val pageContent = rawContent.substring(boundary + 1).trim
+        .replaceAll("(\\r?\\n)+", " ")
+      Some(WetRecord(metaPairs, pageContent))
+    }
+  }
+
+
+
+
+
+
 
   def extractWarcDataframe(inputLocationWarc: String, session: SparkSession): DataFrame = {
       implicit val sessionI = session
       import session.implicits._
 
-      val warcRecords: RDD[Text] = extractWarcRecords(inputLocationWarc)
+      val warcRecords: RDD[Text] = extractRawRecords(inputLocationWarc)
       warcRecords
-        .flatMap(parseRawWarcRecord(_))
+        .flatMap(parseRawWarc(_))
         .filter(_.warcType == "response")
         .toDF()
   }
@@ -148,7 +143,7 @@ object HelperScala {
     implicit val sessionI = session
     import session.implicits._
 
-    val warcRecords: RDD[Text] = extractWarcRecords(inputLocationWarc)
+    val warcRecords: RDD[Text] = extractRawRecords(inputLocationWarc)
     warcRecords
       .flatMap(parseRawWetRecord(_))
       .filter(_.warcType != "warcinfo")

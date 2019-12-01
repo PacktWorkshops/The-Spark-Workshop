@@ -7,6 +7,11 @@ https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2019-43/segments/1570986
 https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2019-43/segments/1570986647517.11/wet/CC-MAIN-20191013195541-20191013222541-00000.warc.wet.gz
 
 
-To parse these files in Python, the source has to be transformed to a CSV file via scala.packt2.spark.Convert.scala
-and can then be read into a PySpark DataFrame as in python.packt2.spark.read_webcrawl.py
-I'm currently working on a better solution that should work without this intermediate step
+The following sources show how the files can be parsed/converted to structured data:
+Scala:
+The-Spark-Workshop/Chapter02/scala/packt2/spark/ParsingWet.scala => WET files which contain plain text
+The-Spark-Workshop/Chapter02/scala/packt2/spark/ParsingWarc.scala => WARC files which contain raw HTML data + meta info
+
+Python:
+The-Spark-Workshop/Chapter02/python/packt2/spark/parsing_wet.py => WET files which contain plain text
+The-Spark-Workshop/Chapter02/python/packt2/spark/parsing_warc.py => WARC files which contain raw HTML data + meta info

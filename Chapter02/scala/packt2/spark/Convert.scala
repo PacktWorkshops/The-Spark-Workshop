@@ -2,7 +2,7 @@ package packt2.spark
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
-import packt2.HelperScala.{extractWarcRecords, parseRawWarcRecord, parseRawWetRecord}
+import packt2.HelperScala.{extractRawRecords, parseRawWarc, parseRawWetRecord}
 import packt2.{HelperScala, WarcRecord, WetRecord}
 
 
@@ -14,7 +14,7 @@ object Convert extends App {
   val inputLocationWet = ParsingWet.getClass.getResource("/spark/webcorpus/wet.sample").getPath
   val inputLocationWarc = ParsingWet.getClass.getResource("/spark/webcorpus/warc.sample").getPath
 
-  val wetRDD: RDD[WetRecord] = extractWarcRecords(inputLocationWet)
+  val wetRDD: RDD[WetRecord] = extractRawRecords(inputLocationWet)
     .flatMap(parseRawWetRecord(_))
     .filter(_.warcType != "warcinfo") // skip meta header info for file
 
@@ -26,8 +26,8 @@ object Convert extends App {
     .save("./resources/wet_dataframe")
 
 
-  val warcRDD: RDD[WarcRecord] = extractWarcRecords(inputLocationWarc)
-    .flatMap(parseRawWarcRecord(_))
+  val warcRDD: RDD[WarcRecord] = extractRawRecords(inputLocationWarc)
+    .flatMap(parseRawWarc(_))
     .filter(_.warcType == "response")
 
   val warcDataset: Dataset[WarcRecord] = warcRDD.toDS()
