@@ -12,46 +12,51 @@
   <dependencies>
     <dependency>
       <groupId>org.apache.spark</groupId>
-      <artifactId>spark-core_2.12</artifactId>
+      <artifactId>spark-core_2.11</artifactId>
       <version>${spark.version}</version>
       <!--      Uncomment for execution outside of IntelliJ-->
       <!--      <scope>provided</scope>-->
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>
-      <artifactId>spark-sql_2.12</artifactId>
+      <artifactId>spark-sql_2.11</artifactId>
       <version>${spark.version}</version>
       <!--      Uncomment for execution outside of IntelliJ-->
       <!--      <scope>provided</scope>-->
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>
-      <artifactId>spark-mllib_2.12</artifactId>
+      <artifactId>spark-mllib_2.11</artifactId>
       <version>${spark.version}</version>
       <!--      Uncomment for execution outside of IntelliJ-->
       <!--      <scope>provided</scope>-->
     </dependency>
     <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>15.0</version>
+    </dependency>
+    <dependency>
       <groupId>org.apache.spark</groupId>
-      <artifactId>spark-core_2.12</artifactId>
+      <artifactId>spark-core_2.11</artifactId>
       <version>${spark.version}</version>
       <classifier>tests</classifier>
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>
-      <artifactId>spark-sql_2.12</artifactId>
+      <artifactId>spark-sql_2.11</artifactId>
       <version>${spark.version}</version>
       <classifier>tests</classifier>
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>
-      <artifactId>spark-catalyst_2.12</artifactId>
+      <artifactId>spark-catalyst_2.11</artifactId>
       <version>${spark.version}</version>
       <classifier>tests</classifier>
     </dependency>
     <dependency>
       <groupId>com.holdenkarau</groupId>
-      <artifactId>spark-testing-base_2.12</artifactId>
+      <artifactId>spark-testing-base_2.11</artifactId>
 <!--      2.4.4 not yet available-->
       <version>2.4.3_0.12.0</version>
       <scope>test</scope>
@@ -99,6 +104,11 @@
           </descriptorRefs>
           <finalName>packt-uber-jar</finalName>
           <appendAssemblyId>false</appendAssemblyId>
+          <archive>
+            <manifest>
+              <mainClass>com.db.search.filenet.Load</mainClass>
+            </manifest>
+          </archive>
         </configuration>
         <executions>
           <execution>
@@ -121,6 +131,11 @@
               <goal>shade</goal>
             </goals>
             <configuration>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <!--                  <mainClass>&lt;!&ndash; YOUR_APPLICATION_MAIN_CLASS &ndash;&gt;</mainClass>-->
+                </transformer>
+              </transformers>
               <filters>
                 <filter>
                   <artifact>*:*</artifact>
@@ -136,6 +151,25 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>Chapter02/scala</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 
