@@ -19,7 +19,7 @@ def get_common_field(meta_pairs: DefaultDict[str, str]):
     content_length = int(meta_pairs.get("Content-Length", "-1"))
     return warc_type, target_uri, record_id, content_type, block_digest, date_s, content_length
 
-class Warc_Record:
+class WarcRecord:
     def __init__(self, meta_pairs: DefaultDict[str, str], response_meta: Tuple[str, str, int], source_html: str):
         warc_type, target_uri, record_id, content_type, block_digest, date_s, content_length = get_common_field(meta_pairs)
         self.warc_type = warc_type
@@ -41,7 +41,7 @@ class Warc_Record:
         self.html_source = source_html
 
 
-class Wet_Record:
+class WetRecord:
     def __init__(self, meta_pairs: DefaultDict[str, str], source_html: str):
         warc_type, target_uri, record_id, content_type, block_digest, date_s, content_length = get_common_field(meta_pairs)
         self.warc_type = warc_type

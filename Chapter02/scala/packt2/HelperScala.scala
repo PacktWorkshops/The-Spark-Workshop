@@ -104,7 +104,7 @@ object HelperScala {
   }
 
   // parses raw WarcWet records into domain objects of type spark.WarcRecord
-  def parseRawWetRecord(text: Text): Option[WetRecord] = {
+  def parseRawWet(text: Text): Option[WetRecord] = {
     val rawContent = text.toString // key is a line number which is is useless
     val matches = blankLine.findAllMatchIn(rawContent)
     if (matches.isEmpty) { // malformed record, skip
@@ -145,7 +145,7 @@ object HelperScala {
 
     val warcRecords: RDD[Text] = extractRawRecords(inputLocationWarc)
     warcRecords
-      .flatMap(parseRawWetRecord(_))
+      .flatMap(parseRawWet(_))
       .filter(_.warcType != "warcinfo")
       .toDF()
   }

@@ -2,12 +2,12 @@ from Chapter01.python.packt1.helper_python import create_session
 from Chapter02.python.packt2.helper_python import extract_raw_records, parse_raw_wet
 from globalp.python.packtg.helper_python_global import sample_wet_loc
 
-
 if __name__ == "__main__":
+    wet_loc = sample_wet_loc
+    session = create_session(3, 'Schema Parsing WET')
 
-    input_loc_wet = sample_wet_loc
-    session = create_session(3, 'Web Corpus Parsing (Wet)')
-    wet_records = extract_raw_records(input_loc_wet, session) \
+    raw_records = extract_raw_records(wet_loc, session)
+    wet_records = raw_records \
         .flatMap(lambda record: parse_raw_wet(record))
 
     text_records = wet_records \
