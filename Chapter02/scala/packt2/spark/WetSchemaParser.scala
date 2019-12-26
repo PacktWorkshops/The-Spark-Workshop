@@ -18,48 +18,28 @@ object WetSchemaParser {
 
     val inputLocWet = HelperScala.sampleWetLoc
     implicit val session: SparkSession = HelperScala.createSession(3, "WET Parser")
+    session.sparkContext.setLogLevel("ERROR") // avoids printing of info messages
 
     val rawRecords: RDD[Text] = extractRawRecords(inputLocWet)
     val wetRecords: RDD[WetRecord] = rawRecords
       .flatMap(parseRawWet(_))
 
     import session.implicits._
-     val textRecords = wetRecords
-        .filter(_.warcType != "warcinfo") // skip meta header info for file
-        .toDF()
+    wetRecords.toDF().printSchema()
+    println(s"Total records: ${wetRecords.count()}")
 
-    textRecords.printSchema()
     /*
-root
- |-- warcType: string (nullable = true)
- |-- targetURI: string (nullable = true)
- |-- dateS: long (nullable = false)
- |-- recordID: string (nullable = true)
- |-- refersTo: string (nullable = true)
- |-- blockDigest: string (nullable = true)
- |-- contentType: string (nullable = true)
- |-- contentLength: integer (nullable = false)
- |-- plainText: string (nullable = true)
-    */
+    val textRecords = wetRecords
+      .filter(_.warcType != "warcinfo") // skip meta header info for file
+      .toDF()
 
     textRecords.show(3)
- /*
-+----------+--------------------+----------+--------------------+--------------------+--------------------+-----------+-------------+--------------------+
-|  warcType|           targetURI|     dateS|            recordID|            refersTo|         blockDigest|contentType|contentLength|           plainText|
-+----------+--------------------+----------+--------------------+--------------------+--------------------+-----------+-------------+--------------------+
-|conversion|http://www.bioref...|1566077047|<urn:uuid:55e694b...|<urn:uuid:48e1553...|sha1:YTWQDG2P3CZ2...| text/plain|         1096|Encyclopedia | Wo...|
-|conversion|http://0-1.ru/?id...|1566076394|<urn:uuid:9ee9c2c...|<urn:uuid:07a442a...|sha1:NCXTAQVEHGWW...| text/plain|         5476|За нарушения прот...|
-|conversion|http://0-50.ru/ne...|1566075776|<urn:uuid:7c9ed59...|<urn:uuid:f4b62f8...|sha1:V5LHTS2HYPQH...| text/plain|        30034|Новости 0-50.ru |...|
-+----------+--------------------+----------+--------------------+--------------------+--------------------+-----------+-------------+--------------------+
-  */
-
     val wikipediaRecords = textRecords.as[WetRecord].filter(e => e.targetURI.contains("wikipedia"))
     print(wikipediaRecords.count())
     // 1
     val wikipediaTexts = wikipediaRecords.map(_.plainText)
     println(wikipediaTexts.first())
-    /*
-      Encyclopedia | World Factbook | World Flags | Reference Tables | List of Lists Academic Disciplines |
     */
+
   }
 }

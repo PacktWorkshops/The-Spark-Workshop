@@ -122,12 +122,6 @@ object HelperScala {
     }
   }
 
-
-
-
-
-
-
   def extractWarcDataframe(inputLocationWarc: String, session: SparkSession): DataFrame = {
       implicit val sessionI = session
       import session.implicits._

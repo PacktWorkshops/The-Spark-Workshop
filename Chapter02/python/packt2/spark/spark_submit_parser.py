@@ -6,18 +6,9 @@ if __name__ == "__main__":
     warc_loc = sample_warc_loc
     session = create_session(3, 'Submit Parser')
 
-    raw_records = extract_raw_records(sample_warc_loc, session)
+    raw_records = extract_raw_records(warc_loc, session)
     warc_records = raw_records \
         .flatMap(lambda record: parse_raw_warc(record))
 
-    responses = warc_records \
-        .filter(lambda record: record.warc_type == "response") \
-        .toDF()
-
-    responses.printSchema()
-    responses.show(3)
-
-    english_records = responses.filter(responses.language == 'en')
-    print(english_records.count())
-
-    print(english_records.select('html_source').first())
+    warc_records.toDF().printSchema()
+    print(warc_records.count())

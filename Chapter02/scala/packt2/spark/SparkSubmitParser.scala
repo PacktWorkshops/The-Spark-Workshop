@@ -1,10 +1,8 @@
 package packt2.spark
 
-
 import org.apache.hadoop.io.Text
-import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
-import org.apache.spark.sql.{SQLContext, SparkSession}
+import org.apache.spark.sql.SparkSession
 import packt2.HelperScala.{extractRawRecords, parseRawWarc}
 import packt2.{HelperScala, WarcRecord}
 

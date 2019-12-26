@@ -12,10 +12,8 @@ object DefaultParsing {
     session.sparkContext.setLogLevel("ERROR")  // avoids printing of info messages
     val records: RDD[String] = session.sparkContext.textFile(inputLocWet)
 
-    println(records.getNumPartitions)
-
-    records.take(50).foreach(line => {
-      println(line)
+    records.take(50).foreach(record => {
+      println(record)
       println("---------------------------")
     })
     println("#############################")

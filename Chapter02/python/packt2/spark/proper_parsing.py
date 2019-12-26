@@ -11,7 +11,7 @@ if __name__ == "__main__":
     hadoop_conf = {"textinputformat.record.delimiter": "WARC/1.0"}
     input_format_name = 'org.apache.hadoop.mapreduce.lib.input.TextInputFormat'
     record_pairs: RDD = session.sparkContext \
-        .newAPIHadoopFile(path=sample_wet_loc, inputFormatClass=input_format_name,
+        .newAPIHadoopFile(path=input_loc_wet, inputFormatClass=input_format_name,
                           keyClass="org.apache.hadoop.io.LongWritable", valueClass="org.apache.hadoop.io.Text",
                           conf=hadoop_conf)
     record_texts = record_pairs.map(lambda pair: pair[1].strip())
