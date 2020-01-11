@@ -1,4 +1,4 @@
-package Exercise1_02
+package Exercise2_01
 
 import Utilities.HelperScala
 import org.apache.spark.rdd.RDD
