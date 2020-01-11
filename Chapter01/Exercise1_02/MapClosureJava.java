@@ -1,16 +1,18 @@
-package packt1.spark;
+package Exercise1_02;
+
+import Utilities.HelperScala;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
-import packt1.HelperScala;
+
 import java.util.*;
 
 public class MapClosureJava {
     public static void main(String[] args) {
-        List<String> words = new ArrayList<>(Arrays.asList("Settlements", "some", "centuries", "old", "and", "still",  "no", "bigger", "than", "pinheads", "on", "the", "untouched", "expanse", "of", "their", "background"));
+        List<String> words = new ArrayList<>(Arrays.asList("Settlements", "some", "centuries", "old", "and", "still", "no", "bigger", "than", "pinheads", "on", "the", "untouched", "expanse", "of", "their", "background"));
         SparkSession session = HelperScala.createSession(2, "Java map closure");
         JavaSparkContext jcontext = new JavaSparkContext(session.sparkContext());
-        JavaRDD<String> wordsRdd =  jcontext.parallelize(words);
+        JavaRDD<String> wordsRdd = jcontext.parallelize(words);
 
         JavaRDD<Integer> wordLengths = wordsRdd.map(word -> word.length()); // passing a closure to Spark's `map`
         System.out.println(wordLengths.collect()); // printing result to stdout

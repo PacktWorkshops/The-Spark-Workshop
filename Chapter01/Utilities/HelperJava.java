@@ -1,4 +1,4 @@
-package packt1;
+package Utilities;
 
 import org.apache.hadoop.fs.Path;
 
@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class UtilitiesJava {
+public class HelperJava {
 
     public static String separator = File.separator;
-    private static String novellaLocation = "/Users/a/IdeaProjects/The-Spark-Workshop/resources/mapreduce/HoD.txt"; // ToDo: Specify
+    private static String novellaLocation = "/Users/a/IdeaProjects/The-Spark-Workshop/resources/HoD.txt"; // ToDo: Specify
     public static Path novellaPath = new Path(novellaLocation);
 
     public static StringTokenizer tokenizeSimple(String text) {
