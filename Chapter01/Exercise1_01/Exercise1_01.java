@@ -62,7 +62,7 @@ public class Exercise1_01 {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(LongWritable.class);
         FileInputFormat.addInputPath(job, novellaPath);
-        FileOutputFormat.setOutputPath(job, new Path("." + separator + "wordcounts")); // ToDo: Specify output path
+        FileOutputFormat.setOutputPath(job, new Path("." + separator + "Chapter01" + separator + "wordcounts")); // ToDo: Specify output path
         System.exit(job.waitForCompletion(true) ? 0 : 1); // actual launch
     }
 }

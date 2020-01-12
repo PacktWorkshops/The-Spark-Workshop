@@ -15,21 +15,21 @@
       <artifactId>spark-core_2.11</artifactId>
       <version>${spark.version}</version>
       <!--      Uncomment for execution outside of IntelliJ-->
-      <!--      <scope>provided</scope>-->
+<!--            <scope>provided</scope>-->
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-sql_2.11</artifactId>
       <version>${spark.version}</version>
       <!--      Uncomment for execution outside of IntelliJ-->
-      <!--      <scope>provided</scope>-->
+<!--            <scope>provided</scope>-->
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-mllib_2.11</artifactId>
       <version>${spark.version}</version>
       <!--      Uncomment for execution outside of IntelliJ-->
-      <!--      <scope>provided</scope>-->
+<!--            <scope>provided</scope>-->
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -164,6 +164,7 @@
             <configuration>
               <sources>
                 <source>Chapter02/scala</source>
+                <source>Chapter03/scala</source>
               </sources>
             </configuration>
           </execution>
