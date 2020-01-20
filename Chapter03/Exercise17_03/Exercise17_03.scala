@@ -1,10 +1,10 @@
-package Exercise4_01
+package Exercise17_03
 
 import scala.collection.mutable
 import Utilities01.HelperScala.{createSession, novellaLocation, getNeighbours, calcAverage}
 
-object Exercise4_01 {
-
+object Exercise17_03 {
+  // main method of Exercise4_01.scala comes here
   def main(args: Array[String]): Unit = {
 
     val session = createSession(2, "Aggregations RDD")
@@ -60,8 +60,8 @@ object Exercise4_01 {
 
     val averages = countWithNeighbours.map(calcAverage)
     println(averages.take(5).toList)
-    // List((Mephistopheles,,13.0), (pate,11.0), (vibrating,12.5), (Ah!,13.5), (better.,11.5))
 
+    Thread.sleep(100L * 60L * 1000L)
   }
 
 }

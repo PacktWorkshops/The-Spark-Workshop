@@ -1,5 +1,5 @@
-from Chapter01.python.packt1.helper_python import create_session
-from Chapter02.python.packt2.helper_python import extract_raw_records, parse_raw_warc
+from utilities01_py.helper_python import create_session
+from utilities02_py.helper_python import extract_raw_records, parse_raw_warc
 from globalp.python.packtg.helper_python_global import sample_warc_loc
 
 if __name__ == "__main__":

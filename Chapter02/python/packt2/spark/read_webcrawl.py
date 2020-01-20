@@ -1,5 +1,5 @@
-from Chapter01.python.packt1.helper_python import *
-from pyspark.sql import SparkSession, DataFrame
+from utilities01_py.helper_python import *
+from pyspark.sql import DataFrame
 
 if __name__ == "__main__":
     wet_location = os.path.join('..', '..', '..', '..', 'resources', 'wet_dataframe', '*.csv')

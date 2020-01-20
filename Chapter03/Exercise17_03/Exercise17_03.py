@@ -3,9 +3,10 @@ from pyspark.sql import SparkSession
 from pyspark import RDD
 from collections import defaultdict
 from typing import DefaultDict, Tuple
+import time
 
 if __name__ == "__main__":
-
+    # main method of Exercise4_01.py comes here
     session: SparkSession = create_session(2, "Aggregation RDD")
     lines: RDD = session.sparkContext.textFile(novella_location)
     tokens: RDD = lines.flatMap(lambda line: line.split())
@@ -49,17 +50,16 @@ if __name__ == "__main__":
 
     zero_value_bykey = (0, 0)
 
-
     def seq_op_bykey(acc: Tuple[int, int], neighbours: int) -> Tuple[int, int]:
         return acc[0] + 1, acc[1] + neighbours
 
-
     def comb_op_bykey(acc1: Tuple[int, int], acc2: Tuple[int, int]) -> Tuple[int, int]:
         return acc1[0] + acc2[0], acc1[1] + acc2[1]
-
 
     countWithNeighbours: RDD = tokenWithNeighbours.aggregateByKey(zero_value_bykey, seq_op_bykey, comb_op_bykey)
 
     averages: RDD = countWithNeighbours.map(lambda word_stats: calc_average(word_stats))
     print(averages.take(5))
     #  [('The', 12.14691943127962), ('Conrad', 7.5), ('is', 12.633093525179856), ('anyone', 12.5), ('anywhere', 13.25)]
+
+    time.sleep(10 * 60)

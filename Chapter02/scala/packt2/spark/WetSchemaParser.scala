@@ -1,11 +1,12 @@
 package packt2.spark
 
+import Utilities01.HelperScala
+import Utilities02.WetRecord
 import org.apache.hadoop.io.Text
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
-import packt2.HelperScala.{extractRawRecords, parseRawWet}
-import packt2.HelperScala
-import packt2.WetRecord
+import Utilities01.HelperScala.createSession
+import Utilities02.HelperScala.{sampleWetLoc, extractRawRecords, parseRawWet}
 
 /**
  * Code for parsing .wet files of the WARC corpus
@@ -16,8 +17,8 @@ object WetSchemaParser {
 
   def main(args: Array[String]) = {
 
-    val inputLocWet = HelperScala.sampleWetLoc
-    implicit val session: SparkSession = HelperScala.createSession(3, "WET Parser")
+    val inputLocWet = sampleWetLoc
+    implicit val session: SparkSession = createSession(3, "WET Parser")
     session.sparkContext.setLogLevel("ERROR") // avoids printing of info messages
 
     val rawRecords: RDD[Text] = extractRawRecords(inputLocWet)

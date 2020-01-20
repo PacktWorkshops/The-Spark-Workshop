@@ -1,10 +1,12 @@
 package packt2.spark
 
+import Utilities01.HelperScala
+import Utilities02.WarcRecord
 import org.apache.hadoop.io.Text
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
-import packt2.HelperScala.{extractRawRecords, parseRawWarc}
-import packt2.{HelperScala, WarcRecord}
+import Utilities02.HelperScala.{sampleWarcLoc, extractRawRecords, parseRawWarc}
+
 
 object SubmitWithMasterParser {
   def heavyComputation(record: WarcRecord): Long = {
@@ -17,7 +19,7 @@ object SubmitWithMasterParser {
   }
 
   def main(args: Array[String]): Unit = {
-    val inputLocWarc = HelperScala.sampleWarcLoc
+    val inputLocWarc = sampleWarcLoc
     implicit val session: SparkSession = SparkSession.builder
       .appName("SubmitWithMasterParser")
       .getOrCreate()

@@ -1,6 +1,6 @@
 from pyspark.rdd import RDD
 
-from Chapter01.python.packt1.helper_python import create_session
+from utilities01_py.helper_python import create_session
 from globalp.python.packtg.helper_python_global import sample_wet_loc
 
 if __name__ == "__main__":

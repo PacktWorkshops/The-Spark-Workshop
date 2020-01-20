@@ -3,8 +3,9 @@ package packt2.spark
 import org.apache.hadoop.io.Text
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
-import packt2.HelperScala.{extractRawRecords, parseRawWarc}
-import packt2.{HelperScala, WarcRecord}
+import Utilities02.WarcRecord
+import Utilities01.HelperScala.createSession
+import Utilities02.HelperScala.{sampleWarcLoc, extractRawRecords, parseRawWarc}
 
 /**
  * Code for parsing .warc files of the WARC corpus
@@ -15,8 +16,8 @@ object SparkSubmitParser {
 
   def main(args: Array[String]) = {
 
-    val inputLocWarc = HelperScala.sampleWarcLoc
-    implicit val session: SparkSession = HelperScala.createSession(3, "Submit Parser")
+    val inputLocWarc = sampleWarcLoc
+    implicit val session: SparkSession = createSession(3, "Submit Parser")
 
     val rawRecords: RDD[Text] = extractRawRecords(inputLocWarc)
     val warcRecords: RDD[WarcRecord] = rawRecords
