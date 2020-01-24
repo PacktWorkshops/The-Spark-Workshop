@@ -472,3 +472,160 @@ spark.sql("""
   WHERE lines.`icao-num` != 'null'
   ORDER BY ports.icao
 """).show(truncate = false)
+
+
+
+// Section 7.5
+
+
+spark.sql("DROP TABLE database_name.table_name")
+
+spark.sql("DROP TABLE IF EXISTS database_name.table_name")
+
+scala> spark.conf.get("spark.sql.warehouse.dir")
+
+spark.sql("""
+CREATE TABLE IF NOT EXISTS airlines_table
+USING PARQUET
+AS SELECT * FROM airlines
+""")
+
+spark.sql("SHOW TABLES").show()
+
+spark.sql("SELECT COUNT(*) FROM default.airlines_table").show()
+
+
+spark.sql("""
+CREATE TABLE default.airports_table
+  (airport_id INT, airport_name STRING, airport_city STRING, airport_country STRING, iata STRING, icao STRING, latitude DOUBLE, longitude DOUBLE, altitude INT)
+  USING PARQUET
+""")
+
+import org.apache.spark.sql.functions.col
+spark.sql("SHOW TABLES").filter(col("tableName").startsWith("a")).show()
+
+spark.sql("SELECT * FROM default.airports_table").show()
+
+spark.sql("INSERT INTO default.airports_table SELECT * from airports")
+
+spark.sql("LOAD DATA INPATH '/some/directory/airports_data.parquet' INTO TABLE default.airports_table")
+
+spark.sql("SELECT * FROM default.airports_table LIMIT 10").show()
+
+airports_df.write.saveAsTable("airports_table")
+
+spark.sql("DROP TABLE database_name.table_name")
+
+spark.sql("CREATE DATABASE IF NOT EXISTS aviation_data")
+
+spark.sql("SHOW DATABASES").show()
+
+spark.sql("DROP DATABASE IF EXISTS aviation_data")
+
+
+spark.sql("""
+CREATE TABLE IF NOT EXISTS aviation_data.routes_table
+(airline STRING, airline_id STRING, source_airport STRING, source_airport_id STRING, dest_airport STRING, dest_airport_id STRING)
+USING PARQUET
+LOCATION '/path/to/a/directory/'
+""")
+
+
+spark.sql("""
+CREATE TABLE IF NOT EXISTS aviation_data.routes_table
+(airline STRING, airline_id STRING, source_airport STRING, source_airport_id STRING, dest_airport STRING, dest_airport_id STRING)
+USING PARQUET
+OPTIONS (PATH '/path/to/a/directory/')
+""")
+
+
+spark.sql("SHOW TABLES IN aviation_data").show()
+
+
+routes_df.write.option('path', "/path/to/a/directory/").saveAsTable("routes_table")
+
+
+spark.sql("CREATE VIEW aviation_data.routes_view AS SELECT * FROM aviation_data.routes_table")
+
+
+spark.sql("SHOW TABLES IN aviation_data").show()
+
+
+// Activity Assignment 1
+
+val airlines_df = (spark.read.format("csv")
+  .option("sep", ",")
+  .option("inferSchema", "true")
+  .option("header", "false")
+  .load("hdfs://.../openflights/airlines_data.csv")
+  .toDF("airline_id", "airline_name", "alias", "iata", "icao-num", "callsign", "country", "active")
+)
+
+val routes_df = (spark.read.format("csv")
+  .option("sep", ",")
+  .option("inferSchema", "true")
+  .option("header", "false")
+  .load("hdfs://.../openflights/routes_data.csv")
+  .toDF("airline", "airline_id", "source_airport", "source_airport_id", "dest_airport", "dest_airport_id", "codeshare", "stops", "equipment")
+  .drop("codeshare", "stops", "equipment")
+)
+
+
+val airports_df = (spark.read.format("csv")
+  .option("sep", ",")
+  .option("inferSchema", "true")
+  .option("header", "false")
+  .load("hdfs://.../openflights/airports_data.csv")
+  .toDF("airport_id", "airport_name", "airport_city", "airport_country", "iata", "icao", "latitude", "longitude", "altitude", "timezone", "dst", "tz_time", "type", "source")
+  .drop("timezone", "dst", "tz_time", "type", "source")
+)
+
+
+airlines_df.createOrReplaceTempView("airlines")
+routes_df.createOrReplaceTempView("routes")
+airports_df.createOrReplaceTempView("airports")
+
+
+spark.sql("""
+SELECT
+  dest_air.airport_name AS dest_airport_name
+  , r.dest_airport
+  , dest_air.airport_city AS dest_airport_city
+  , dest_air.airport_country AS dest_airport_country
+  , COUNT(air.airline_name) AS LAX_flight_count
+FROM routes r
+LEFT JOIN airlines air
+ON r.airline_id = air.airline_id
+LEFT JOIN airports source_air
+ON r.source_airport_id = source_air.airport_id
+LEFT JOIN airports dest_air
+ON r.dest_airport_id = dest_air.airport_id
+WHERE r.source_airport = "LAX"
+GROUP BY r.dest_airport, dest_airport_name, dest_airport_city, dest_airport_country
+HAVING LAX_flight_count > 1
+ORDER BY LAX_flight_count DESC
+""").show(truncate = false)
+
+
+
+spark.conf.set("spark.sql.crossJoin.enabled", true)
+
+spark.sql("""
+  WITH lax_coordinates AS (
+    SELECT
+      a.latitude
+      , a.longitude
+    FROM airports a
+    WHERE a.iata == "LAX"
+  )
+  SELECT
+    ports.*,
+    ROUND( 3959 * acos( cos( radians(lax_coordinates.latitude) )
+        * cos( radians( ports.latitude ) )
+        * cos( radians( ports.longitude ) - radians(lax_coordinates.longitude) )
+        + sin( radians(lax_coordinates.latitude) )
+        * sin( radians( ports.latitude ) ) ) , 2) AS distance_to_LAX
+  FROM airports AS ports, lax_coordinates
+  WHERE ports.airport_country = "United States"
+  ORDER BY distance_to_LAX ASC
+""").show(truncate = false)
