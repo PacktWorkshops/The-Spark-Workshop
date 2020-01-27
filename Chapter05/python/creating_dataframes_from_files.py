@@ -6,7 +6,7 @@
 # By Craig Covey
 spark = SparkSession \
    .builder \
-   .appName("creating_dataframes_from files") \
+   .appName("creating_dataframes_from_files") \
    .getOrCreate()
 
 # Exercise 5.11
