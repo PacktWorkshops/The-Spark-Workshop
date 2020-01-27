@@ -6,6 +6,12 @@
 // By Craig Covey
 
 
+val spark = SparkSession
+   .builder()
+   .appName("creating_dataframes_manually")
+   .getOrCreate()
+
+
 // Exercise 5.05
 val reptile_species_state = List(("Arizona", 97), ("Florida", 103), ("Texas", 139))
 

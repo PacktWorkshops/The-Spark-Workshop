@@ -8,7 +8,7 @@
 
 spark = SparkSession \
    .builder \
-   .appName("some_app_name") \
+   .appName("creating_dataframes_manually") \
    .getOrCreate()
 
 
