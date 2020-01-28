@@ -4,6 +4,7 @@
 # DataFrames with Spark
 
 # By Craig Covey
+
 spark = SparkSession \
    .builder \
    .appName("modifying_dataframes") \
