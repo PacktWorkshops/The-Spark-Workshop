@@ -1,4 +1,4 @@
-package Exercise20_03
+package Exercise21_03
 
 import java.time.LocalDateTime
 
@@ -8,7 +8,7 @@ import Utilities01.HelperScala.createSession
 import Utilities02.HelperScala.{extractRawRecords, parseRawWarc}
 import Utilities02.WarcRecord
 
-object Exercise20_03 {
+object Exercise21_03 {
   def main(args: Array[String]): Unit = {
     val inputWarc = "/Users/a/Desktop/Buch/CC-MAIN-20191013195541-20191013222541-00000.warc" // ToDo: Change
     implicit val session = createSession(3, "Wave exploration")
