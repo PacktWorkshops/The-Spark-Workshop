@@ -3,12 +3,13 @@ from typing import Tuple, DefaultDict, List
 from pyspark.sql import SparkSession
 import re
 
-from utilities02_py.domain_objects import WarcRecord, WetRecord
+from Chapter02.utilities02_py.domain_objects import WarcRecord, WetRecord
 
 blank_line = "(?m:^(?=[\r\n]))"
 blank_line_regex = re.compile(blank_line)
 new_line = "(\\r?\\n)+"
 new_line_regex = re.compile(new_line)
+
 
 def extract_raw_records(warc_loc: str, session: SparkSession):
     hadoop_confi = {"textinputformat.record.delimiter": "WARC/1.0"}
