@@ -7,7 +7,7 @@ import time
 
 if __name__ == "__main__":
     # main method of Exercise4_01.py comes here
-    session: SparkSession = create_session(2, "Aggregation RDD")
+    session: SparkSession = create_session(2, "UI Exploration")
     lines: RDD = session.sparkContext.textFile(novella_location)
     tokens: RDD = lines.flatMap(lambda line: line.split())
     # Aggregation code comes here

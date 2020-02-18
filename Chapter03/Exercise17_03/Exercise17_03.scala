@@ -7,7 +7,7 @@ object Exercise17_03 {
   // main method of Exercise4_01.scala comes here
   def main(args: Array[String]): Unit = {
 
-    val session = createSession(2, "Aggregations RDD")
+    val session = createSession(2, "UI Exploration")
     val lines = session.sparkContext.textFile(novellaLocation)
     val tokens = lines.flatMap(line => line.split("\\s+"))
     // Aggregation code comes here

@@ -47,6 +47,9 @@ object WarcRecord {
 
     WarcRecord(warcType, dateS, recordID, contentLength, contentType, infoID, concurrentTo, ip, targetURI, payloadDigest, blockDigest, payloadType, responseMeta._1, responseMeta._2, responseMeta._3, sourceHtml)
   }
+
+  def createDummyObject() = WarcRecord("warcType", 1L, "recordID", 1, "contentType", "infoID", "concurrentTo", "ip", "targetURI", "payloadDigest", "blockDigest", "payloadType", "htmlContentType", Some("language"), 2, "htmlSource")
+
 }
 
 case class WetRecord(warcType: String, targetURI: String, dateS: Long, recordID: String, refersTo: String, blockDigest: String, contentType: String, contentLength: Int, plainText: String)
@@ -57,4 +60,5 @@ object WetRecord {
     val refersTo = metaPairs.getOrElse("WARC-Refers-To", "")
     WetRecord(warcType, targetURI, dateS, recordID, refersTo, blockDigest, contentType, contentLength, pageContent)
   }
+
 }
