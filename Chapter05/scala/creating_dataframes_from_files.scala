@@ -1,17 +1,10 @@
-// The Spark Workshop
-
-// Chapter 5
-// DataFrames with Spark
-
-// By Craig Covey
-
 val spark = SparkSession
    .builder()
    .appName("creating_dataframes_from_files")
    .getOrCreate()
 
+// Creating DataFrames from Parquet Files
 
-// Exercise 5.11
 val df1 = spark.read.parquet("hdfs://user/your_user_name/data/userdata1.parquet")
 
 val df2 = spark.read.format("parquet").load("hdfs://user/your_user_name/data/userdata1.parquet")
@@ -26,7 +19,7 @@ val df5 = spark.read.orc("hdfs://user/your_user_name/data/orc")
 
 val df6 = spark.read.format("orc").load("hdfs://user/your_user_name/data/orc/")
 
-// Creating DataFrames from JSON
+// Creating DataFrames from JSON Files
 
 val df7 = spark.read.json("hdfs://user/your_user_name/data/books1.json")
 
@@ -40,7 +33,7 @@ val df10 = spark.read.format("avro").load("hdfs://user/your_user_name/data/*.avr
 
 val df11 = spark.read.foramt("avro").load("hdfs://user/your_user_name/data/userdata1.avro,hdfs://user/data/userdata5.avro,hdfs://user/your_user_name/data/userdata8.avro")
 
-// Exercise 5.11
+// Creating DataFrames from CSV Files
 
 val csv_scala_df1 = spark.read
   .option("sep", ",")

@@ -1,48 +1,8 @@
-# The Spark Workshop
+spark = SparkSession \
+   .builder \
+   .appName("dataframe_aggregations") \
+   .getOrCreate()
 
-# Chapter 5
-# DataFrames with Spark
-
-# By Craig Covey
-
-# Exercise 5.23
-
-df.describe().show()
-
-df.describe("last_name", "salary").show()
-
-df.select("salary").summary().show()
-
-df.select("id", "salary").summary("mean", "stddev", "15%", "66%").show()
-
-
-
-df.crosstab("country", "gender").show(10)
-
-
-# Exercise 5.24
-
-df.groupBy().avg().show()
-
-df.groupBy().sum().show()
-
-df.groupBy().max("salary").show()
-
-
-# Exercise 5.25
-
-df.groupBy("gender").count().show()
-
-df.groupby(df["gender"]).avg().show()
-
-df.groupby(df.gender).min().show()
-
-
-# Exercise 5.26
-
-df.groupBy("gender").avg("salary").show()
-
-df.groupBy("country").avg("salary", "id").show(7)
 
 # The Aggregate Method
 
@@ -69,13 +29,11 @@ df.groupBy("gender").agg({'salary': 'mean', 'salary': 'sum'}).show()
 
 df.groupBy("gender").agg({"salary": "sum", "id": "max"}).show()
 
+# Other agg() Options
 
-# Exercise 5.28
+df.groupBy("gender").agg({'salary': 'mean', 'salary': 'sum'}).show()
 
-df.groupby("gender", "country").avg().show(5)
-
-from pyspark.sql import functions as F
-df.groupby("title", df["gender"]).agg(F.avg("salary"), F.max("salary")).orderBy(df.title.desc()).show(7)
+df.groupBy("gender").agg({"salary": "sum", "id": "max"}).show()
 
 # Renaming Aggregate Columns
 
