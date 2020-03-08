@@ -1,27 +1,44 @@
-from typing import List
-import sys
+from pyspark import RDD
+from pyspark.sql import SparkSession
+from Chapter02.utilities02_py.helper_python import extract_raw_records, parse_raw_warc, parse_raw_wet
+import time
 
-million_list: List[int] = []  # 8697472
-for number in range(1, 1000001):
-    million_list.append(-1)
+if __name__ == "__main__":
+    session: SparkSession = SparkSession.builder \
+        .master('local[{}]'.format(3)) \
+        .appName('Caching & Eviction') \
+        .getOrCreate()
+    session.sparkContext.setLogLevel('DEBUG')
 
-print(sys.getsizeof(million_list))
-print(million_list[0])
+    input_loc_warc = '/Users/a/Desktop/Buch/CC-MAIN-20191013195541-20191013222541-00000.warc'
+    input_loc_wet = '/Users/a/Desktop/Buch/CC-MAIN-20191013195541-20191013222541-00000.warc.wet'
+
+    raw_records_warc: RDD = extract_raw_records(input_loc_warc, session)
+    warc_records: RDD = raw_records_warc \
+        .flatMap(lambda record: parse_raw_warc(record))
+
+    warc_records.toDF().ma
 
 
 
-# PySpark equivalent to steps (1)-(5) simply consists in adding the Chapter02 module to the PYTHONPATH environment variable which can be accomplished in a terminal via
-# export PYTHONPATH=$PYTHONPATH:/Users/UserName/IdeaProjects/The-Spark-Workshop
-# This is necessary because spark_submit_parser.py is not fully self-contained, it depends on a number of helper functions from our workshop project such as Chapter02.python.packt2.helper_python.extract_raw_records
 
 
-# ./spark-shell --jars /Users/user/IdeaProjects/The-Spark-Workshop/target/packt-uber-jar.jar
 
 
-# Python:
-# 6) In general, the packaging system for Python tends to be less sophisticated compared to JVM languages like Java or Scala. This turns out to be a blessing in this exercise, the PySpark equivalent to steps (1)-(5) simply consists in adding the Chapter02 module to the PYTHONPATH environment variable which can be accomplished in a terminal via
-# export PYTHONPATH=$PYTHONPATH:/Users/UserName/IdeaProjects/The-Spark-Workshop
-# This is necessary because spark_submit_parser.py is not fully self-contained, it depends on a number of helper functions from our workshop project such as Chapter02.python.packt2.helper_python.extract_raw_records
-#
-# The PySpark program contained in spark_submit_parser.py can now be executed outside of IntelliJ by calling spark-submit with just one argument, the full location of the file:
-#     ~/spark-2.4.4-bin-hadoop2.7/bin/spark-submit /Users/UserName/IdeaProjects/The-Spark-Workshop/Chapter02/python/packt2/spark/spark_submit_parser.py
+
+
+
+    raw_records_wet: RDD = extract_raw_records(input_loc_wet, session)
+    wet_records: RDD = raw_records_wet \
+        .flatMap(lambda record: parse_raw_wet(record))
+
+    warc_records.cache()
+    wet_records.cache()
+
+    uri_keyed_warc = warc_records.map(lambda record: (record.target_uri, record))
+    uri_keyed_wet = wet_records.map(lambda record: (record.target_uri, record))
+    joined = uri_keyed_warc.join(uri_keyed_wet)
+
+    print(joined.count())
+    print(joined.toDebugString())
+    time.sleep(600 * 10)

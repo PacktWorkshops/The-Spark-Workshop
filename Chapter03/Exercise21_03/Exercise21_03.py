@@ -5,7 +5,6 @@ from utilities02_py.helper_python import extract_raw_records, parse_raw_warc
 import datetime
 import time
 import threading
-import os
 
 def fall_asleep(record: WarcRecord):
     current_uri: str = record.target_uri

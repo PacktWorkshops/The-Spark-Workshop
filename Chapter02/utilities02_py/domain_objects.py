@@ -1,5 +1,7 @@
 from typing import DefaultDict, Tuple
 from datetime import datetime
+from collections import defaultdict
+from typing import Tuple, DefaultDict, List
 
 default_date = "1970-01-01T00:00:00Z"
 
@@ -40,6 +42,24 @@ class WarcRecord:
         self.html_length = response_meta[2]
         self.html_source = source_html
 
+    @staticmethod
+    def create_dummy():
+        meta_entries = defaultdict(str)
+        meta_entries["WARC-Type"] = "warcType"
+        meta_entries["WARC-Target-URI"] = "targetURI"
+        meta_entries["WARC-Record-ID"] = "recordID"
+        meta_entries["Content-Type"] = "contentType"
+        meta_entries["WARC-Block-Digest"] =  "blockDigest"
+        meta_entries["WARC-Date"] = "1970-01-01T00:01:00Z"
+        meta_entries["Content-Length"] = 2
+        #
+        meta_entries["WARC-Warcinfo-ID"] ="infoID"
+        meta_entries["WARC-Concurrent-To"] = "concurrentTo"
+        meta_entries["WARC-IP-Address"] = "ip"
+        meta_entries["WARC-Payload-Digest"] = "payloadDigest"
+        meta_entries["WARC-Identified-Payload-Type"] = "payloadType"
+
+        return WarcRecord(meta_entries,("htmlContentType", "language", 3), "sourceHtml")
 
 class WetRecord:
     def __init__(self, meta_pairs: DefaultDict[str, str], source_html: str):
