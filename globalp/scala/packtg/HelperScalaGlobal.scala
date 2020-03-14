@@ -1,7 +1,0 @@
-package packtg
-
-object HelperScalaGlobal {
-
-
-
-}
