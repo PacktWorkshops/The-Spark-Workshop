@@ -5,6 +5,9 @@ import re
 
 from Chapter02.utilities02_py.domain_objects import WarcRecord, WetRecord
 
+sample_warc_loc = "/Users/a/IdeaProjects/The-Spark-Workshop/resources/webcorpus/warc.sample"
+sample_wet_loc = "/Users/a/IdeaProjects/The-Spark-Workshop/resources/webcorpus/wet.sample"
+
 blank_line = "(?m:^(?=[\r\n]))"
 blank_line_regex = re.compile(blank_line)
 new_line = "(\\r?\\n)+"

@@ -1,9 +1,6 @@
 from typing import List, Iterable
-
-from pyspark.conf import SparkConf
 from pyspark.rdd import RDD
 from pyspark.sql import SparkSession
-from Chapter01.utilities01_py.helper_python import create_session
 import time
 
 
@@ -18,8 +15,6 @@ def partition_function(index: int, partition: Iterable):
 
 
 if __name__ == "__main__":
-    # conf = SparkConf()
-    # conf.set("spark.python.worker.memory", "10m")
     session: SparkSession = SparkSession.builder \
         .master('local[{}]'.format(4)) \
         .appName("Memory Limits") \
