@@ -1,11 +1,10 @@
 package Activity2_02
 
-import Utilities01.HelperScala.createSession
-import Utilities02.HelperScala.{extractRawRecords, parseRawWarc, sampleWarcLoc}
+import Utilities02.HelperScala.{extractRawRecords, parseRawWarc}
 import Utilities02.WarcRecord
 import org.apache.commons.io.IOUtils
-import org.apache.hadoop.io.Text
 import org.apache.spark.rdd.RDD
+import org.apache.spark.sql.SparkSession
 import org.apache.tika.langdetect.OptimaizeLangDetector
 import org.apache.tika.metadata.Metadata
 import org.apache.tika.parser.ParseContext
@@ -39,12 +38,15 @@ object Activity2_02 {
     (detected.getLanguage, detected.getRawScore)
   }
 
+  // ./spark-2.4.4-bin-hadoop2.7/bin/spark-submit --master local[1] --class Activity2_02.Activity2_02 IdeaProjects/The-Spark-Workshop/target/packt-uber-jar.jar  /Users/a/Desktop/Buch/CC-MAIN-20191013195541-20191013222541-00000.warc
   def main(args: Array[String]): Unit = {
-    val inputLocWarc = sampleWarcLoc
-    implicit val session = createSession(3, "Tagging crawls")
+    implicit val session = SparkSession.builder
+      .appName("Crawl Tagger")
+      .getOrCreate()
 
-    val rawRecords: RDD[Text] = extractRawRecords(inputLocWarc)
-    val warcRecords: RDD[WarcRecord] = rawRecords
+    val input = args(0)
+    val outputDir = args(1)
+    val warcRecords: RDD[WarcRecord] = extractRawRecords(input)
       .flatMap(parseRawWarc)
       .filter(_.warcType == "response")
 
@@ -59,8 +61,7 @@ object Activity2_02 {
       (uri, language, confidence, text)
     }
 
-    taggedTexts.take(5).foreach(println(_))
-
+    taggedTexts.saveAsTextFile(outputDir)
 
   }
 }
