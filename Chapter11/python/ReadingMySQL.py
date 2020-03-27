@@ -21,7 +21,7 @@ port = 3306
 jdbcDF2 = spark.read \
     .jdbc("jdbc:mysql:" + host + ":" + str(port), tbl,
           properties={"user": "cloudera_su",
-                      "password": "S^4*U!fP70K^",
+                      "password": "somePassword",
                       "jdbcCompliantTruncation": "false",
                       "zeroDateTimeBehavior": "convertToNull"})
 jdbcDF2.show()
