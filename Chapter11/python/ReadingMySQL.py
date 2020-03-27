@@ -15,7 +15,7 @@ spark = SparkSession \
 database = "spark_workshop"
 table = "books"
 tbl = database + "." + table
-host = "hdedge-mysql.marketdb.den01.pop"
+host = "mysql.mycompany.com"
 port = 3306
 
 jdbcDF2 = spark.read \
