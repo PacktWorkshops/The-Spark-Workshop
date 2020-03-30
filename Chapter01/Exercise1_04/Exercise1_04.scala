@@ -1,9 +1,9 @@
-package Exercise4_01
+package Exercise1_04
 
 import scala.collection.mutable
 import Utilities01.HelperScala.{createSession, novellaLocation, getNeighbours, calcAverage}
 
-object Exercise4_01 {
+object Exercise1_04 {
 
   def main(args: Array[String]): Unit = {
 

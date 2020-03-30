@@ -1,4 +1,4 @@
-package Exercise22_04
+package Exercise4_01
 
 import Utilities01.HelperScala.createSession
 import Utilities02.HelperScala.{extractRawRecords, parseRawWarc, parseRawWet, sampleWarcLoc, sampleWetLoc}
@@ -6,22 +6,21 @@ import Utilities02.{WarcRecord, WetRecord}
 import org.apache.hadoop.io.Text
 import org.apache.spark.rdd.RDD
 
-object Exercise22_04 {
+object Exercise4_01 {
 
   def main(args: Array[String]): Unit = {
     implicit val session = createSession(3, "Caching & Eviction")
     session.sparkContext.setLogLevel("DEBUG")
 
-    val inputLocWarc = sampleWarcLoc
-    val inputLocWet = sampleWetLoc
-    val rawRecordsWarc: RDD[Text] = extractRawRecords(inputLocWarc)
+    val rawRecordsWarc: RDD[Text] = extractRawRecords(sampleWarcLoc)
     val warcRecords: RDD[WarcRecord] = rawRecordsWarc
       .flatMap(parseRawWarc)
 
-    val rawRecordsWet: RDD[Text] = extractRawRecords(inputLocWet)
+    val rawRecordsWet: RDD[Text] = extractRawRecords(sampleWetLoc)
     val wetRecords: RDD[WetRecord] = rawRecordsWet
       .flatMap(parseRawWet)
 
+    // Caching the datasets:
     warcRecords.cache()
     wetRecords.cache()
 
@@ -30,8 +29,7 @@ object Exercise22_04 {
     val joined = uriKeyedWarc.join(uriKeyedWet)
 
     println(joined.count())
-    println(joined.toDebugString)
-    Thread.sleep(1000L * 10L)
+    Thread.sleep(300L * 1000L)
 
   }
 

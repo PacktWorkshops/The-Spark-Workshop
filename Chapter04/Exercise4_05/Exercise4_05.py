@@ -17,7 +17,7 @@ def partition_function(index: int, partition: Iterable):
 if __name__ == "__main__":
     session: SparkSession = SparkSession.builder \
         .master('local[{}]'.format(4)) \
-        .appName("Memory Limits") \
+        .appName("JVM/PySpark Memory Limits") \
         .getOrCreate()
 
     numbers_rdd: RDD = session.sparkContext.range(0, 10)

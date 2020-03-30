@@ -17,17 +17,6 @@ if __name__ == "__main__":
     warc_records: RDD = raw_records_warc \
         .flatMap(lambda record: parse_raw_warc(record))
 
-    warc_records.toDF().ma
-
-
-
-
-
-
-
-
-
-
     raw_records_wet: RDD = extract_raw_records(input_loc_wet, session)
     wet_records: RDD = raw_records_wet \
         .flatMap(lambda record: parse_raw_wet(record))
@@ -40,5 +29,4 @@ if __name__ == "__main__":
     joined = uri_keyed_warc.join(uri_keyed_wet)
 
     print(joined.count())
-    print(joined.toDebugString())
-    time.sleep(600 * 10)
+    time.sleep(60 * 10)

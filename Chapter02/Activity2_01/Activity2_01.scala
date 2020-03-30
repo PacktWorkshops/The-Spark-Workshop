@@ -1,10 +1,11 @@
 package Activity2_01
 
-import Utilities02.WarcRecord
-import org.apache.spark.rdd.RDD
-import Utilities02.HelperScala.{extractRawRecords, parseRawWarc}
-import org.apache.spark.sql.SparkSession
 import Utilities01.HelperScala
+import Utilities02.WarcRecord
+import Utilities02.HelperScala.{extractRawRecords, parseRawWarc}
+import org.apache.spark.rdd.RDD
+import org.apache.spark.sql.SparkSession
+
 
 
 object Activity2_01 extends App {

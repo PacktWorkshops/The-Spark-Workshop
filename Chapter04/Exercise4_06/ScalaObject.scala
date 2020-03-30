@@ -1,9 +1,9 @@
-package Exercise25_04
+package Exercise4_06
 
 import org.apache.spark.api.java.JavaRDD
 import org.apache.spark.rdd.RDD
 
-object Exercise25_04 {
+object ScalaObject {
   def executeInScala(rdd: JavaRDD[Any]): RDD[String] = {
     val scalaRDD: RDD[Any] = rdd.rdd
     scalaRDD.map(record => {
