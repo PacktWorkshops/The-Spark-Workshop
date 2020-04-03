@@ -1,6 +1,7 @@
 package Utilities01;
 
 import org.apache.hadoop.fs.Path;
+import org.apache.spark.sql.SparkSession;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,6 +33,13 @@ public class HelperJava {
             previousToken = currentToken;
         }
         return bigrams;
+    }
+
+    public static SparkSession createSession(int numThreads, String name) {
+        return SparkSession.builder()
+                .master("local[" + numThreads + "]") // program simulates a single executor with numThreads cores (one local JVM with numThreads threads)
+                .appName(name)
+                .getOrCreate();
     }
 
     public static void main(String... args) {
