@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 public class HelperJava {
 
     public static String separator = File.separator;
-    private static String novellaLocation = "/Users/a/IdeaProjects/The-Spark-Workshop/resources/HoD.txt"; // ToDo: Specify
+    private static String novellaLocation = "/Users/a/IdeaProjects/The-Spark-Workshop/resources/HoD.txt"; // ToDo: change path
     public static Path novellaPath = new Path(novellaLocation);
 
     public static StringTokenizer tokenizeSimple(String text) {

@@ -1,15 +1,14 @@
 from pyspark.sql import SparkSession
-from typing import List, Optional, Dict, DefaultDict, Tuple
-import os
+from typing import Tuple
 
-novella_location = '/Users/a/IdeaProjects/The-Spark-Workshop/resources/HoD.txt'
+novella_location = '/Users/a/IdeaProjects/The-Spark-Workshop/resources/HoD.txt'  # ToDo: change path
 
 def create_session(num_threads: int=2, name: str="Spark Application") -> SparkSession:
     session: SparkSession = SparkSession.builder \
         .master('local[{}]'.format(num_threads)) \
         .appName(name) \
         .getOrCreate()
-    return session # // program simulates a single executor with numThreads cores (one local JVM with numThreads threads)
+    return session #  // program simulates a single executor with numThreads cores (one local JVM with numThreads threads)
 
 
 def get_neighbours(line: str):

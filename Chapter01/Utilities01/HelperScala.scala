@@ -12,7 +12,7 @@ import scala.util.matching.Regex
 object HelperScala {
 
   val separator = File.separator
-  val novellaLocation = "/Users/a/IdeaProjects/The-Spark-Workshop/resources/HoD.txt" // ToDo: Specify
+  val novellaLocation = "/Users/a/IdeaProjects/The-Spark-Workshop/resources/HoD.txt" // ToDo: change path
 
   val delimiterWarcWet = "WARC/1.0" // Wrong => Exception in thread "main" org.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 0.0 failed 1 times, most recent failure: Lost task 0.0 in stage 0.0 (TID 0, localhost, executor driver): java.lang.OutOfMemoryError: Java heap space
   val delimiterWarcWetBytes: Array[Byte] = delimiterWarcWet.getBytes()

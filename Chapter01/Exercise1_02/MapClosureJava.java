@@ -4,9 +4,7 @@ import org.apache.spark.sql.SparkSession;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static Utilities01.HelperJava.createSession;
 
