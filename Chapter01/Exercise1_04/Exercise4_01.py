@@ -13,9 +13,7 @@ if __name__ == "__main__":
 
     #####################################################################################
     ## Single Element Aggregations
-    total_length: int = tokens \
-        .map(lambda token: len(token)) \
-        .reduce(lambda len1, len2: len1 + len2)
+    total_length: int = tokens.map(lambda token: len(token)).reduce(lambda len1, len2: len1 + len2)
     print(total_length)  # 188421
 
     ####################################################

@@ -1,10 +1,10 @@
-package Chapter01.Exercise3_01
+package Chapter01.Exercise1_03
 
 import org.apache.spark.SparkFunSuite
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.test.SharedSQLContext
 
-class Exercise3_01_Unit_Test extends SparkFunSuite with SharedSQLContext {
+class Exercise1_03_Unit_Test extends SparkFunSuite with SharedSQLContext {
 
   test("filterAndFlatMap") {
     // test code comes here
