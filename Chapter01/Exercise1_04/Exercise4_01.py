@@ -56,7 +56,8 @@ if __name__ == "__main__":
         return acc1[0] + acc2[0], acc1[1] + acc2[1]
 
 
-    countWithNeighbours: RDD = tokenWithNeighbours.aggregateByKey(zero_value_bykey, seq_op_bykey, comb_op_bykey)
+    countWithNeighbours: RDD = tokenWithNeighbours\
+        .aggregateByKey(zero_value_bykey, seq_op_bykey, comb_op_bykey)
 
     averages: RDD = countWithNeighbours.map(lambda word_stats: calc_average(word_stats))
     print(averages.take(5))
