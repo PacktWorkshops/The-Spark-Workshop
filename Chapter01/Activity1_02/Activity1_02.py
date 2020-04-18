@@ -8,8 +8,8 @@ if __name__ == "__main__":
     lines: RDD = session.sparkContext.textFile(novella_location)
 
     tokens = lines \
-        .flatMap(lambda line: line.lower().split()) \
-        .map(lambda word: (re.sub(r"(^[^a-z0-9]+|[^a-z0-9]+$)", '', word)))
+        .flatMap(lambda line: re.split('\\W+', line.strip().lower())) \
+        .filter(lambda record: record != '')
 
     counts_per_token = tokens \
         .map(lambda token: (token, 1)) \

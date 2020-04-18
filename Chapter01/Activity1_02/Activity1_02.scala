@@ -4,7 +4,7 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
 import Utilities01.HelperScala.{createSession, novellaLocation}
 
-object ZipfValidation {
+object Activity1_02 {
 
   def main(args: Array[String]): Unit = {
 
@@ -12,8 +12,8 @@ object ZipfValidation {
     val lines: RDD[String] = session.sparkContext.textFile(novellaLocation)
 
     val tokens: RDD[String] = lines
-      .flatMap(_.toLowerCase.split("\\s+")) // split on whitespace
-      .map(word => word.replaceAll("(^[^a-z0-9]+|[^a-z0-9]+$)", "")) // removing punctuation
+      .flatMap(_.trim().toLowerCase.split("\\W+"))
+      .filter(_.nonEmpty)
 
     val countsPerToken: RDD[(String, Int)] = tokens
       .map(token => (token, 1))
@@ -21,7 +21,7 @@ object ZipfValidation {
 
     val sortedCountsToken = countsPerToken
       .map(_.swap) // swap is equivalent to `pair =>(pair._2, pair._1)`
-      .sortByKey(ascending=false)
+      .sortByKey(ascending = false)
 
     sortedCountsToken.saveAsTextFile(s"zipfsorted")
   }
