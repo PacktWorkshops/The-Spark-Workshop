@@ -3,18 +3,19 @@ from pyspark.sql import SparkSession
 from pyspark import RDD
 from collections import defaultdict
 from typing import DefaultDict, Tuple
+import re
 
 if __name__ == "__main__":
 
     session: SparkSession = create_session(2, "Aggregation RDD")
     lines: RDD = session.sparkContext.textFile(novella_location)
-    tokens: RDD = lines.flatMap(lambda line: line.split())
+    tokens: RDD = lines.flatMap(lambda line: re.split('\\W+', line))
     # Aggregation code comes here
 
     #####################################################################################
     ## Single Element Aggregations
     total_length: int = tokens.map(lambda token: len(token)).reduce(lambda len1, len2: len1 + len2)
-    print(total_length)  # 188421
+    print(total_length)  # 163484
 
     ####################################################
     zero_value: DefaultDict[str, int] = defaultdict(int)
@@ -33,15 +34,15 @@ if __name__ == "__main__":
 
     aggregated: DefaultDict[str, int] = lines.aggregate(zero_value, seq_op, comb_op)
     print(aggregated)
-    # defaultdict(<class 'int'>, {'T': 572, 'h': 10520, 'e': 22198, ' ': 37747, 'P': 137, 'r': 9968, 'o': 13534, 'j': 214, 'c': 4085, 't': 16188, 'G': 142, 'u': 5184, 'n': 11838, 'b': 2588, 'g': 3858, 'E': 182, 'B': 124, 'k': 1673, 'f': 4148, 'H': 324, 'a': 13948, 'D': 99, 's': 10755, ',': 2995, 'y': 3333, 'J': 23, 'p': 3087, 'C': 94, 'd': 7681, 'i': 11164, 'w': 4114, 'l': 7051, 'm': 4566, 'v': 1673, '.': 2604, 'Y': 110, '-': 1584, 'L': 75, ':': 56, 'A': 307, 'R': 96, 'F': 104, '1': 63, '9': 15, '5': 13, '[': 2, '#': 1, '2': 15, ']': 2, 'U': 52, 'M': 129, '0': 21, '8': 11, '*': 28, 'S': 202, 'O': 139, 'I': 1468, 'N': 132, 'K': 135, 'W': 197, 'z': 208, "'": 1178, 'x': 284, 'q': 136, ';': 229, '“': 209, '”': 41, '_': 34, 'Q': 2, '!': 160, '(': 38, ')': 38, '?': 155, 'V': 19, '6': 8, 'Z': 1, '&': 1, '/': 25, '7': 6, '3': 12, '4': 9, '%': 1, 'X': 2, '@': 2, '$': 2})
+    # defaultdict(<class 'int'>, {'H': 294, 'e': 20493, 'a': 13009, 'r': 8862, 't': 14766, ' ': 37900, 'o': 12245, 'f': 3823, 'D': 50, 'k': 1544, 'n': 10866, 's': 10057, 'b': 2350, 'y': 3035, 'J': 14, 'p': 2745, 'h': 10020, 'C': 55, 'd': 7187, 'I': 1374, 'T': 470, 'N': 75, 'l': 6625, 'i': 10145, ',': 2850, 'c': 3520, 'u': 4690, 'g': 3552, 'w': 3858, '.': 2393, 'm': 4226, 'v': 1568, '–': 258, 'j': 130, 'A': 231, 'z': 206, 'G': 32, 'W': 181, 'O': 80, 'B': 85, '’': 739, '—': 640, 'L': 22, 'x': 258, 'M': 108, 'F': 39, 'q': 126, ';': 229, 'E': 57, '“': 198, '”': 30, 'S': 130, 'Q': 1, '!': 159, '(': 18, ')': 18, 'R': 22, 'K': 126, '?': 156, 'Y': 82, '-': 9, 'P': 29, '‘': 431, ':': 33, '&': 7, "'": 3, '6': 1, '0': 1, 'Z': 1, 'U': 7, 'V': 10, 'é': 1, '[': 1, ']': 1})
     #####################################################################################
     ## Pair RDD Aggregations
 
     counts: RDD = tokens \
         .map(lambda token: (token, 1)) \
         .reduceByKey(lambda c1, c2: c1 + c2)
-    print(counts.take(5))
-
+    print(counts.take(10))
+    # [('of', 1364), ('Darkness', 2), ('her', 72), ('Conrad', 1), ('The', 224)]
     ####################################################
     tokenWithNeighbours: RDD = lines.flatMap(lambda line: get_neighbours(line))
 
@@ -61,4 +62,4 @@ if __name__ == "__main__":
 
     averages: RDD = countWithNeighbours.map(lambda word_stats: calc_average(word_stats))
     print(averages.take(5))
-    #  [('The', 12.14691943127962), ('Conrad', 7.5), ('is', 12.633093525179856), ('anyone', 12.5), ('anywhere', 13.25)]
+    #  [('of', 452.4310850439883), ('Darkness', 130.5), ('her', 242.08333333333334), ('Conrad', 3.0), ('The', 407.5)]

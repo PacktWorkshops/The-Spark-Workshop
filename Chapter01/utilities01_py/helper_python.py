@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession
 from typing import Tuple
+import re
 
 novella_location = '/Users/a/IdeaProjects/The-Spark-Workshop/resources/HoD.txt'  # ToDo: change path
 
@@ -12,7 +13,7 @@ def create_session(num_threads: int=2, name: str="Spark Application") -> SparkSe
 
 
 def get_neighbours(line: str):
-    tokens = line.split()
+    tokens = re.split('\\W+', line)
     return list(map(lambda token: (token, len(tokens)), tokens))
 
 

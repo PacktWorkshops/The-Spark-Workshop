@@ -28,7 +28,7 @@ object HelperScala {
   }
 
   def getNeighbours(line: String): Array[(String, Int)] = {
-    val tokens: Array[String] = line.split("\\s+")
+    val tokens: Array[String] = line.split("\\W+")
     tokens.map(token => (token, tokens.length))
   }
 
