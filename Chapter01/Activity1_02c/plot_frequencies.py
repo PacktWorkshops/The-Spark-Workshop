@@ -16,7 +16,7 @@ with open('frequencies_ranked.dat', "r") as ins:
         line = line.strip()
         pair = line.split(',')
         frequency = int(pair[0][1:])  # remove (
-        word = pair[1][0:-1]  # remove )
+        word = pair[1].strip()[0:-1].replace("'", '')  # remove )
         all_ranks.append(rank)
         frequencies.append(frequency)
         if frequency > 1:
