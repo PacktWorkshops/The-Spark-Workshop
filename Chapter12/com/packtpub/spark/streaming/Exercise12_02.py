@@ -1,10 +1,8 @@
 from pyspark import SparkContext
 from pyspark.streaming import StreamingContext
-from pyspark.streaming.kafka import KafkaUtils
 
 sc = SparkContext("local[2]", "My Spark App")
 ssc = StreamingContext(sc, 5)
-sc.setLogLevel("WARN")
 
 lines = ssc.socketTextStream("localhost", 9999)
 

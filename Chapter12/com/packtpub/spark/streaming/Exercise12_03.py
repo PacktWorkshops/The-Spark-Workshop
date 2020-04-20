@@ -19,7 +19,5 @@ kafkaStream = KafkaUtils.createDirectStream(ssc=ssc, topics=topics, kafkaParams=
 kafkaStream.count().pprint()
 kafkaStream.pprint()
 
-
-
 ssc.start()
 ssc.awaitTermination()

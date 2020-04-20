@@ -5,10 +5,6 @@ from pyspark.streaming.kafka import KafkaUtils
 sc = SparkContext("local[2]", "My Spark App")
 ssc = StreamingContext(sc, 10)
 
-
-def read(data): print(data)
-
-
 kafka_params = {"bootstrap.servers": "localhost:9092",
                 "key.deserializer": "org.apache.kafka.common.serialization.StringDeserializer",
                 "value.deserializer": "org.apache.kafka.common.serialization.StringDeserializer",
@@ -20,11 +16,6 @@ topics = ['website_traffic']
 
 kafkaStream = KafkaUtils.createDirectStream(ssc=ssc, topics=topics, kafkaParams=kafka_params)
 
-actions = [(1, "opened website"), (2, "clicked"), (3, "scrolled")]
-webActions = sc.parallelize(actions)
-
-kafkaStream.pprint()
-
 
 # Function to Parse Raw Web Traffic
 def parse(record):
@@ -34,14 +25,16 @@ def parse(record):
     action_id = parts[1]
     return int(action_id), user_id
 
-
-def join(record):
-    return record.join(webActions)
-
-
 # parse the data into a clean format
 parsed_web_traffic = kafkaStream.map(parse)
-parsed_web_traffic.pprint()
+
+# Create action description lookup data
+actions = [(1, "opened website"), (2, "clicked"), (3, "scrolled")]
+webActions = sc.parallelize(actions)
+
+# Function to Join web actions with their descriptions
+def join(record):
+    return record.join(webActions)
 
 # join the data
 enhanced = parsed_web_traffic.transform(join)

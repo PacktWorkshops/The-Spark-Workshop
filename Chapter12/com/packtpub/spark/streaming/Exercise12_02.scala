@@ -3,7 +3,7 @@ package com.packtpub.spark.module_four.chapter_12.streaming
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
-object WordCountFromSocket {
+object Exercise12_02 {
 
   def main(args: Array[String]): Unit = {
 

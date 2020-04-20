@@ -6,7 +6,7 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.streaming.kafka010.{ConsumerStrategies, KafkaUtils, LocationStrategies}
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
-object JoiningStreams {
+object Example12_01 {
 
   def main(args: Array[String]): Unit = {
 
