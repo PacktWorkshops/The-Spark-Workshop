@@ -1,10 +1,10 @@
-package com.packtpub.spark.module_four.chapter_11
+package com.packtpub.spark.Exercise11_05
 
 import org.apache.spark.sql.functions.{max, min}
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 import org.apache.spark.sql.{Row, SparkSession}
 
-object Aggregation {
+object Exercise11_05 {
 
   def main(args: Array[String]): Unit = {
 

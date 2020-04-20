@@ -1,9 +1,9 @@
-package com.packtpub.spark.module_four.chapter_11
+package com.packtpub.spark.Exercise11_02
 
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.apache.spark.sql.{Row, SparkSession}
 
-object Deduplication {
+object Exercise11_02 {
 
   def main(args: Array[String]): Unit = {
 

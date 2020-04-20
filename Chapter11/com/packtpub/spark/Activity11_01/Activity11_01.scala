@@ -1,8 +1,6 @@
-package com.packtpub.spark.module_four.chapter_11
-
 import org.apache.spark.sql.SparkSession
 
-object ActivityOne {
+object Activity11_01 {
 
   case class Saying(word: String)
 

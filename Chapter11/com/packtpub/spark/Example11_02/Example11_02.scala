@@ -4,7 +4,7 @@ import java.util.Properties
 
 import org.apache.spark.sql.SparkSession
 
-object ReadingMySQL {
+object Example11_02 {
 
   case class Saying(word: String)
 

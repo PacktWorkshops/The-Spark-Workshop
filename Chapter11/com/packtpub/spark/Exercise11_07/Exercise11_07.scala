@@ -1,11 +1,9 @@
-package com.packtpub.spark.module_four.chapter_11
+package com.packtpub.spark.Exercise11_07
 
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 import org.apache.spark.sql.{Row, SparkSession}
-import org.apache.spark.sql.expressions.Window
-import org.apache.spark.sql.functions._
 
-object Windowing {
+object Exercise11_07 {
 
   def main(args: Array[String]): Unit = {
 
@@ -40,16 +38,16 @@ object Windowing {
     val petsDF = spark.createDataFrame(petsRDD, StructType(schema))
 
     petsDF.createOrReplaceTempView("pets")
+    spark.sql("select nickname, age from pets where type = 'cat'").show()
 
-    // establish window that partitions by a group, and orders by metric for ranking by
-    val window = Window.partitionBy("type").orderBy($"age".desc)
+    // option 1: pure sql
+    spark.sql("select nickname as youngest_cat, min(age) as age from pets where type = 'cat' group by nickname order by age asc limit 1").show()
+    spark.sql("select nickname as oldest_cat, max(age) as age from pets where type = 'cat' group by nickname order by age desc limit 1").show()
 
-    // rank the dogs from oldest to youngest
-    petsDF.withColumn("row_number", row_number().over(window))
-          .withColumnRenamed("row_number", "rank")
-          .where("rank <= 2 and (type = 'dog' or type = 'cat')")
-          .orderBy("type", "nickname")
-          .show()
+    // option 2: functional
+    petsDF.where("type = 'cat'").sort("age").limit(1).show()
+    petsDF.where("type = 'cat'").sort($"age".desc).limit(1).show()
+
   }
 
 }

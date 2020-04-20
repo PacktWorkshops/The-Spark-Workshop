@@ -1,10 +1,10 @@
-package com.packtpub.spark.module_four.chapter_11
+package com.packtpub.spark.Exercise11_04
 
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.apache.spark.sql.{Row, SparkSession}
 import org.apache.spark.sql.functions.col
 
-object Joins {
+object Exercise11_04 {
 
   def main(args: Array[String]): Unit = {
 

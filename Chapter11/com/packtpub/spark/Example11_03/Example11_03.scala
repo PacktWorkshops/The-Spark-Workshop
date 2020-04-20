@@ -4,7 +4,7 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 import org.apache.spark.sql.{Row, SparkSession}
 
-object LowCardinality {
+object Example11_03 {
 
   def main(args: Array[String]): Unit = {
 

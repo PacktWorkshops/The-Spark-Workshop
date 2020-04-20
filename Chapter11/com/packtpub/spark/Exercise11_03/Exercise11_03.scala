@@ -1,9 +1,9 @@
-package com.packtpub.spark.module_four.chapter_11
+package com.packtpub.spark.Exercise11_03
 
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.apache.spark.sql.{Row, SparkSession}
 
-object Filtering {
+object Exercise11_03 {
 
   def main(args: Array[String]): Unit = {
 

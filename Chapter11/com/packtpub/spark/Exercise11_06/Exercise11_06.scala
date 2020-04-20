@@ -1,9 +1,9 @@
-package com.packtpub.spark.module_four.chapter_11
+package com.packtpub.spark.Exercise11_06
 
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 import org.apache.spark.sql.{Row, SparkSession}
 
-object Standardization {
+object Exercise11_06 {
 
   def main(args: Array[String]): Unit = {
 
