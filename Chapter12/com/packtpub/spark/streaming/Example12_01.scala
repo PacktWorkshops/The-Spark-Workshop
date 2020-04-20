@@ -75,15 +75,15 @@ object Example12_01 {
     val groupedDesktopEvents = desktop.groupByKey()
     groupedDesktopEvents.print()
 
-//    val mobile = mobileDStream.map(x => {
-//      val parts = x.split(",")
-//      (parts{0}, MobileEvent(parts{0}, parts{1}))
-//    })
-//
-//    val combinedEvents = desktop.join(mobile)
-//
-//    // turn DStream into a PairedDStream
-//    combinedEvents.print()
+   val mobile = mobileDStream.map(x => {
+     val parts = x.split(",")
+     (parts{0}, MobileEvent(parts{0}, parts{1}))
+   })
+
+   val combinedEvents = desktop.join(mobile)
+
+   // turn DStream into a PairedDStream
+   combinedEvents.print()
 
     // Allow the streaming context to start, and stick around until terminated
     ssc.start()

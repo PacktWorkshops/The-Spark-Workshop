@@ -22,13 +22,13 @@ object ReadingMySQL {
     val database = "spark_workshop"
     val table = "books"
     val tbl = database + "." + table
-    val host = "hdedge-mysql.marketdb.den01.pop"
+    val host = "mysql.mycompany.com"
     val port = 3306
 
     // Set Driver Properties
     val driverProperties = new Properties
-    driverProperties.put("user", "cloudera_su")
-    driverProperties.put("password", "S^4*U!fP70K^")
+    driverProperties.put("user", "someUsername")
+    driverProperties.put("password", "S0mePassw0rd")
 
     // Set any DB options you need
     val options = Map("jdbcCompliantTruncation" -> "false", "zeroDateTimeBehavior" -> "convertToNull")

@@ -6,7 +6,7 @@ import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.apache.spark.streaming.kafka010.{ConsumerStrategies, KafkaUtils, LocationStrategies}
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
-object WriteStreamtoHDFS {
+object Example12_02 {
 
   def main(args: Array[String]): Unit = {
 
