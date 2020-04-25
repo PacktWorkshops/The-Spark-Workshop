@@ -23,8 +23,8 @@ object Exercise3_04 {
     val warcRecords: RDD[WarcRecord] = rawRecords
       .flatMap(record => {
         val parsedRawWarc = parseRawWarc(record)
-        // val crasher = 5 / 0 // ToDo: Uncomment
-        // print(crasher) // ToDo: Uncomment
+         // val crasher = 5 / 0 // ToDo: Uncomment
+         // print(crasher) // ToDo: Uncomment
         parsedRawWarc
       })
 

@@ -23,11 +23,8 @@ if __name__ == "__main__":
     java_process = launch_gateway()
     gateway = JavaGateway(gateway_parameters=GatewayParameters(port=java_process),
                           callback_server_parameters=CallbackServerParameters(port=0))
-    session.sparkContext._gateway.start_callback_server()
     listener = RetryListener()
     session.sparkContext._jsc.sc().addSparkListener(listener)
-
-    print(session.sparkContext.parallelize(range(100), 3).collect())
 
     input_warc = '/Users/a/Desktop/Buch/CC-MAIN-20191013195541-20191013222541-00000.warc'  # ToDo: Change path
     raw_records = extract_raw_records(input_warc, session)
