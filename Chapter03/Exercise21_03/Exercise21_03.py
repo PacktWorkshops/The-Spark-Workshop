@@ -4,18 +4,19 @@ from utilities02_py.domain_objects import WarcRecord
 from utilities02_py.helper_python import extract_raw_records, parse_raw_warc
 import datetime
 import time
-import threading
+import os
+
 
 def fall_asleep(record: WarcRecord):
     current_uri: str = record.target_uri
     start_time = str(datetime.datetime.now())
-    # thread_id = str(threading.currentThread().daemon.real)
-    thread_id =  str(threading.currentThread().ident)
-    print('@@1 falling asleep in thread ' + thread_id + ' at ' + start_time + ' accessing ' + current_uri)
+    process_id = os.getpid()
+    print('@@1 falling asleep in process {} at {} accessing {}'.format(str(process_id), start_time, current_uri))
     time.sleep(2)
     end_time = str(datetime.datetime.now())
-    print('@@2 awakening in thread ' + thread_id + ' at ' + end_time + ' accessing ' + current_uri)
-    return thread_id, current_uri
+    print('@@2 awakening in process {} at {} accessing {}'.format(str(process_id), end_time, current_uri))
+    return process_id, current_uri
+
 
 if __name__ == "__main__":
     # main method of Exercise4_01.py comes here
@@ -26,9 +27,8 @@ if __name__ == "__main__":
     warc_records = raw_records \
         .flatMap(lambda record: parse_raw_warc(record))
 
-
-    thread_ids = warc_records.map(lambda record: fall_asleep(record))
-    print(thread_ids.count())
+    process_ids = warc_records.map(lambda record: fall_asleep(record))
+    print(process_ids.count())
 
 # val threadIdsRDD: RDD[(Long, Long)] = warcRecords
 # .map(record => {

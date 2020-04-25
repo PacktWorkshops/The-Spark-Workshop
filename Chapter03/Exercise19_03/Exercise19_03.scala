@@ -4,7 +4,7 @@ package Exercise19_03
 import scala.collection.mutable
 import Utilities01.HelperScala.{calcAverage, createSession, getNeighbours, novellaLocation}
 import Utilities02.HelperScala.{extractRawRecords, parseRawWarc, parseRawWet, sampleWarcLoc, sampleWetLoc}
-import Utilities02.{WarcRecord, WetRecord}
+import Utilities02.{WarcRecord}
 import org.apache.hadoop.io.Text
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
