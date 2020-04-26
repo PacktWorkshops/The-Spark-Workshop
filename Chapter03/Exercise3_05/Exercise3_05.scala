@@ -35,7 +35,7 @@ object Exercise3_05 {
   }
 
   def main(args: Array[String]): Unit = {
-    implicit val session = createSession(4, "Wave exploration")
+    implicit val session = createSession(3, "Wave exploration")
 
     val inputWarc = "/Users/a/Desktop/Buch/CC-MAIN-20191013195541-20191013222541-00000.warc" // ToDo: Change path
     val rawRecords: RDD[Text] = extractRawRecords(inputWarc)

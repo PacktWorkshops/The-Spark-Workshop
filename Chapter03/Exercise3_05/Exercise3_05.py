@@ -33,7 +33,7 @@ def quick_print(processid_uri: (int, str)) -> (int, int):
     return processid_uri[0], new_process_id
 
 if __name__ == "__main__":
-    session: SparkSession = create_session(4, "Wave exploration")
+    session: SparkSession = create_session(3, "Wave exploration")
 
     input_warc = "/Users/a/Desktop/Buch/CC-MAIN-20191013195541-20191013222541-00000.warc"  # ToDo: Change path
     raw_records = extract_raw_records(input_warc, session)
