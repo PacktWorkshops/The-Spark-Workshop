@@ -16,17 +16,16 @@ class Exercise3_03_Unit_Test(ReusedSQLTestCase):
             new_heavy_object = HeavyObject('map')
             objet_id = new_heavy_object.get_id()
             return objet_id
+        ids_after_map: RDD = warc_records.map(map_function)
 
         def partition_function(partition):
             new_heavy_object = HeavyObject('mapPartition')
             object_id = new_heavy_object.get_id()
             for _ in partition:
                 yield object_id
-
-        ids_after_map: RDD = warc_records.map(map_function)
-        unique_ids_map: List[int] = ids_after_map.distinct().collect()
-
         ids_after_mappartitions: RDD = warc_records.mapPartitions(partition_function)
+
+        unique_ids_map: List[int] = ids_after_map.distinct().collect()
         unique_ids_mappartitions: List[int] = ids_after_mappartitions.distinct().collect()
 
         print('@' * 50)

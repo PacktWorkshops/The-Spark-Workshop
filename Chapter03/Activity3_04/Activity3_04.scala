@@ -1,9 +1,8 @@
-package Activity4_03
+package Activity3_04
 
-import Utilities02.HelperScala.{extractRawRecords, parseRawWarc, sampleWarcLoc}
+import Utilities02.HelperScala.{extractRawRecords, parseRawWarc}
 import Utilities02.WarcRecord
 import org.apache.commons.io.IOUtils
-import org.apache.hadoop.io.Text
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
 import org.apache.tika.langdetect.OptimaizeLangDetector
@@ -12,7 +11,7 @@ import org.apache.tika.parser.ParseContext
 import org.apache.tika.parser.html.HtmlParser
 import org.apache.tika.sax.BodyContentHandler
 
-object Activity4_03 {
+object Activity3_04 {
 
   def tagRecords(partition: Iterator[WarcRecord]): Iterator[(String, String, Float, String)] = {
     val languageIdentifier = new OptimaizeLangDetector()
@@ -44,13 +43,12 @@ object Activity4_03 {
     val input = args(0)
     val outputDir = args(1)
 
-    val rawRecords: RDD[Text] = extractRawRecords(sampleWarcLoc)
-    val warcRecords: RDD[WarcRecord] = rawRecords
+    val warcRecords: RDD[WarcRecord] = extractRawRecords(input)
       .flatMap(parseRawWarc)
       .filter(_.warcType == "response")
 
     val taggedTexts = warcRecords.mapPartitions(tagRecords)
-    taggedTexts.take(5).foreach(println(_))
+    taggedTexts.saveAsTextFile(outputDir)
 
   }
 }
