@@ -6,7 +6,6 @@ import org.apache.spark.sql.SparkSession
 import Utilities02.WarcRecord
 import Utilities02.HelperScala.{sampleWarcLoc, extractRawRecords, parseRawWarc}
 
-
 object Exercise2_06 {
 
   def heavyComputation(record: WarcRecord): Long = {

@@ -17,7 +17,7 @@ if __name__ == "__main__":
 
     raw_records = extract_raw_records(sample_warc_loc, session)
     warc_records = raw_records.flatMap(lambda record: parse_raw_warc(record))
-    invoked_heavy_rdd = warc_records.map(lambda record : heavy_computation())
+    invoked_heavy_rdd = warc_records.map(lambda record: heavy_computation())
 
     start_time = default_timer()
     invoked_heavy_rdd.foreach(lambda record: None)
