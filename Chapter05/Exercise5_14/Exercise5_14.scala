@@ -5,4 +5,4 @@ val spark = SparkSession
 
 df.select("gender").distinct().show()
 
-df.select("country").distinct.show(5)
+df.select("country").distinct().show(5)
