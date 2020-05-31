@@ -9,6 +9,6 @@ if __name__ == "__main__":
     records: RDD = session.sparkContext.textFile(sample_wet_loc)
     for record in records.take(50):
         print(record)
-        print('---------------------------')
-    print('###########################')
+        print('-' * 20)
+    print('#' * 40)
     print('Total # of records: ' + str(records.count()))
