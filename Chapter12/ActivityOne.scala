@@ -1,5 +1,3 @@
-package com.packtpub.spark.module_four.chapter_12
-
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types.StructType
 
