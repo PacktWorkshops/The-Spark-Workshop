@@ -1,5 +1,3 @@
-package com.packtpub.spark.Exercise11_08
-
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 import org.apache.spark.sql.{Row, SparkSession}
 import org.apache.spark.sql.expressions.Window

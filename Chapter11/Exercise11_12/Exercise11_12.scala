@@ -1,10 +1,8 @@
-package com.packtpub.spark.module_four.chapter_11
-
 import java.util.Properties
 
 import org.apache.spark.sql.SparkSession
 
-object Example11_02 {
+object Exercise11_12 {
 
   case class Saying(word: String)
 

@@ -1,5 +1,3 @@
-package com.packtpub.spark.Exercise11_01
-
 import org.apache.spark.sql.SparkSession
 
 object Exercise11_01 {

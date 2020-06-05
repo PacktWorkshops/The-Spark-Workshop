@@ -1,9 +1,7 @@
-package com.packtpub.spark.Exercise11_02
-
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.apache.spark.sql.{Row, SparkSession}
 
-object Exercise11_02 {
+object Exercise11_03 {
 
   def main(args: Array[String]): Unit = {
 
@@ -29,9 +27,22 @@ object Exercise11_02 {
 
     val animalData = spark.createDataFrame(animalDataRDD, StructType(schema))
 
-    animalData.show()
-    val deduped = animalData.dropDuplicates()
-    deduped.show()
+    // filter out any records where name column starts with "c"
+    val nonCats = animalData.filter("name not like 'c%'")
+
+    // or you can use the where method, which is an alias on the filter method
+    val nonCatsTwo = animalData.where("name != 'cat'")
+    nonCatsTwo.show()
+
+    nonCats.foreach(animal => {
+      println(s"I am a ${animal.get(0)}, which does not start with a 'c'.")
+    })
+
+    val nonPets = animalData.filter("category != 'pet'")
+
+    nonPets.foreach(animal => {
+      println(s"I am no pet, for I am a ${animal.get(1)} ${animal.get(0)}!")
+    })
 
   }
 

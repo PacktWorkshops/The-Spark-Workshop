@@ -1,10 +1,9 @@
-package com.packtpub.spark.Exercise11_10
-
+import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 import org.apache.spark.sql.{Row, SparkSession}
 
-object Exercise11_10 {
+object Exercise11_11 {
 
   def main(args: Array[String]): Unit = {
 
@@ -16,14 +15,15 @@ object Exercise11_10 {
       .getOrCreate()
 
     spark.sparkContext.setLogLevel("WARN")
+    import spark.implicits._
 
-    // an example of a normalized dataset
-    val animalsNormalized = Seq(Row("fido", 1, 4, 1),
-                                      Row("annabelle", 2, 15, 2),
-                                      Row("fred", 3, 29, 1),
-                                      Row("fred", 4, 1, 1),
-                                      Row("gus", 5, 1, 4),
-                                      Row("daisy", 6, 2, 5))
+    // an example of a denormalized dataset
+    val animalsDenormalized = Seq(Row("fido", "dog", 4, "brown"),
+                                   Row("annabelle", "cat", 15, "white"),
+                                   Row("fred", "bear", 29, "brown"),
+                                   Row("fred", "parrot", 1, "brown"),
+                                   Row("gus", "fish", 1, "gold"),
+                                   Row("daisy", "iguana", 2, "green"))
 
     // lookup table for animal type
     val animalTypeLookup = Seq(Row("dog", 1),
@@ -41,11 +41,11 @@ object Exercise11_10 {
                         Row("green", 5),
                         Row("red",6))
 
-    val schemaNormalized = List(
+    val schemaDenormalized = List(
       StructField("nickname", StringType, nullable = true),
-      StructField("type", IntegerType, nullable = true),
+      StructField("type", StringType, nullable = true),
       StructField("age", IntegerType, nullable = true),
-      StructField("color", IntegerType, nullable = true)
+      StructField("color", StringType, nullable = true)
     )
 
     val schemaColor = List(
@@ -59,20 +59,20 @@ object Exercise11_10 {
     )
 
     // create RDDs
-    val petsRDD = spark.sparkContext.parallelize(animalsNormalized)
+    val petsRDD = spark.sparkContext.parallelize(animalsDenormalized)
     val colorsRDD = spark.sparkContext.parallelize(animalColorLookup)
     val typesRDD = spark.sparkContext.parallelize(animalTypeLookup)
 
     // create DataFrames
-    val petsDF = spark.createDataFrame(petsRDD, StructType(schemaNormalized))
+    val petsDF = spark.createDataFrame(petsRDD, StructType(schemaDenormalized))
     val colors = spark.createDataFrame(colorsRDD, StructType(schemaColor))
     val types = spark.createDataFrame(typesRDD, StructType(schemaType))
 
-    val petsWithColors = petsDF.join(colors, col("color") === col("color_id"), "left")
-    petsWithColors.select("nickname","color_name", "age").show()
+    val petsWithColors = petsDF.join(colors, col("color") === col("color_name"), "left")
+    petsWithColors.select("nickname","color_id", "age").show()
 
-    val petsWithColorAndType = petsWithColors.join(types, col("type") === col("type_id"), "left")
-    petsWithColorAndType.select("nickname","type_name", "age", "color_name").show()
+    val petsWithColorAndType = petsWithColors.join(types, col("type") === col("type_name"), "left")
+    petsWithColorAndType.select("nickname","type_id", "age", "color_id").show()
   }
 
 }
