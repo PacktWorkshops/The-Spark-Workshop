@@ -42,19 +42,20 @@ object Exercise11_05 {
       "age" -> "max"
     )).show()
 
-    // what about youngest and oldest?
+    // what about youngest and oldest cat ages?
     petsDF.where("type = 'cat'")
       .groupBy("type")
       .agg(min("age").alias("min_age"),
         max("age").alias("max_age"))
       .show()
 
-    //    allCatMetrics.show()
-    //
+     // what is the average age of dogs in the set?
     petsDF.where("type = 'dog'").groupBy("type").agg("age" -> "avg").show()
-    //
+    
+    // how many pets are for each color?
     petsDF.groupBy("color").count().show()
 
+    // what are the 3 most popular pet names? (using temp view instead of functional approach)
     spark.sql("select nickname, count(*) as occurrences from pets group by nickname order by occurrences desc limit 3").show()
 
   }
