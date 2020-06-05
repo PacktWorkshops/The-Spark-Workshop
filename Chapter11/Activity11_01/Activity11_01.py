@@ -2,12 +2,6 @@ from pyspark.sql import SparkSession
 from pyspark.sql import Row
 import string
 
-
-# Clean the word of punctuation
-def clean(word):
-    return word.translate(translator)
-
-
 # Create a Spark Session
 spark = SparkSession \
     .builder \
@@ -18,27 +12,23 @@ spark = SparkSession \
 # create spark contexts
 sc = spark.sparkContext
 
-# create a set of data
-saying = "You cannot end a sentence with because, because because is a conjunction."
-words = saying.split(" ")
+babyNames = spark.read\
+    .option("header", "true")\
+    .csv("Popular_Baby_Names.csv")\
+    .withColumnRenamed("Year of Birth", "birth_year")\
+    .withColumnRenamed("Gender", "gender")\
+    .withColumnRenamed("Ethnicity", "ethnicity")\
+    .withColumnRenamed("Child's First Name", "name")\
+    .withColumnRenamed("Count", "count")\
+    .withColumnRenamed("Rank", "rank")
 
-# convert to RDD
-wordsRDD = sc.parallelize(words)
+babyNames.registerTempTable("babies")
 
-# create a translator for removing punctuation and execute
-translator = str.maketrans('', '', string.punctuation)
-cleaned = wordsRDD.map(clean)
-
-# convert rows to Row() format
-rowRDD = cleaned.map(lambda x: Row(x))
-
-# create dataframe
-saying_in_spark = spark.createDataFrame(rowRDD, ['word'])
-
-# analyze
-analysis = saying_in_spark\
-    .groupBy('word')\
-    .agg({"word": "count"})\
-    .sort("count(word)", ascending=False)
-
-analysis.show()
+spark.sql("select first(name) as name, " +
+          "first(gender) as gender, " +
+          "ethnicity as ethnicity, " +
+          "min(rank) as rank " +
+          "from babies " +
+          "where birth_year=2016 " +
+          "group by ethnicity, gender " +
+          "order by ethnicity, gender").show()
