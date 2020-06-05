@@ -2,12 +2,6 @@ from pyspark.sql import SparkSession
 from pyspark.sql import Row
 from pyspark.sql import functions as F
 
-
-# Function to read data in RDD
-def read(row): print(
-    "The " + row['name'] + ", in the " + row['category'] + " category, eats " + row['food'] + " most commonly.")
-
-
 # Create a Spark Session
 spark = SparkSession \
     .builder \
@@ -39,25 +33,25 @@ petsDF = spark.createDataFrame(petsRDD, ['nickname', 'type', 'age', 'color'])
 
 petsDF.registerTempTable('pets')
 
-# spark.sql('select nickname, '
-#           'count(*) as occurrences '
-#           'from pets '
-#           'group by nickname '
-#           'order by occurrences desc '
-#           'limit 3').show()
-#
-# petsDF.where("type = 'cat'")\
-#     .agg({"age": "max"})\
-#     .show()
+spark.sql('select nickname, '
+          'count(*) as occurrences '
+          'from pets '
+          'group by nickname '
+          'order by occurrences desc '
+          'limit 3').show()
 
-# petsDF.where(petsDF["type"] == "cat") \
-#   .groupBy("type") \
-#   .agg(F.min("age"), F.max("age")) \
-#   .show()
-#
-# petsDF.where("type = 'dog'")\
-#     .groupBy("type")\
-#     .agg(F.avg("age"))\
-#     .show()
+petsDF.where("type = 'cat'")\
+    .agg({"age": "max"})\
+    .show()
 
-# petsDF.groupBy("color").count().show()
+petsDF.where(petsDF["type"] == "cat") \
+  .groupBy("type") \
+  .agg(F.min("age"), F.max("age")) \
+  .show()
+
+petsDF.where("type = 'dog'")\
+    .groupBy("type")\
+    .agg(F.avg("age"))\
+    .show()
+
+petsDF.groupBy("color").count().show()
