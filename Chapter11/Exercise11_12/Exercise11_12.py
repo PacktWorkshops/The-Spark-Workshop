@@ -1,4 +1,3 @@
-import pyspark
 from pyspark.sql import SparkSession
 
 # Create a Spark Session
