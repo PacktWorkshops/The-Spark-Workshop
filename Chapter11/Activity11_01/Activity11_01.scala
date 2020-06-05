@@ -2,7 +2,12 @@ import org.apache.spark.sql.SparkSession
 
 object Activity11_01 {
 
-  case class Saying(word: String)
+case class BabyNameData(birth_year: String,
+                        gender: String,
+                        ethnicity: String,
+                        name: String,
+                        count: String,
+                        rank: String)
 
   def main(args: Array[String]): Unit = {
 
@@ -17,51 +22,43 @@ object Activity11_01 {
     // Import Spark Implicits for using .as[] function
     import spark.implicits._
 
-    // Create some data from a funny saying with repetitious words in it
-    val saying = "You cannot end a sentence with because, because because is a conjunction."
+    // you can use a DataSet
+    val babyNames = spark
+      .read
+      .option("header", "true")
+      .csv("src/main/resources/data/Popular_Baby_Names.csv")
+      .withColumnRenamed("Year of Birth", "birth_year")
+      .withColumnRenamed("Gender", "gender")
+      .withColumnRenamed("Ethnicity", "ethnicity")
+      .withColumnRenamed("Child's First Name", "name")
+      .withColumnRenamed("Count", "count")
+      .withColumnRenamed("Rank", "rank")
+      .as[BabyNameData]
 
-    // split the words by space so that they form a sequence of words
-    val wordsOfTheSaying = saying.split(" ")
+    // or you can use a DataFrame
+    val babyNames = spark
+      .read
+      .option("header", "true")
+      .csv("src/main/resources/data/Popular_Baby_Names.csv")
+      .withColumnRenamed("Year of Birth", "birth_year")
+      .withColumnRenamed("Gender", "gender")
+      .withColumnRenamed("Ethnicity", "ethnicity")
+      .withColumnRenamed("Child's First Name", "name")
+      .withColumnRenamed("Count", "count")
+      .withColumnRenamed("Rank", "rank")
 
-    // Consume the data into spark by parallelizing it and converting to a DataFrame (and optionally, a DataSet)
-    val sayingInSpark = spark.sparkContext.parallelize(wordsOfTheSaying)
-      .toDF("word")
-      .as[Saying]
+    babyNames.createOrReplaceTempView("babies")
+    
+    spark.sql("select first(name) as name, " +
+      "first(gender) as gender, " +
+      "ethnicity as ethnicity, " +
+      "min(rank) as rank " +
+      "from babies " +
+      "where birth_year=2016 " +
+      "group by ethnicity, gender " +
+      "order by ethnicity, gender")
+    .show(truncate = false)
 
-    sayingInSpark.show()
 
-    // Clean the data by removing unneeded punctuation (by mapping over the data)
-    val cleanedSaying = sayingInSpark.map(record => {
-
-      // Store the word for continued use
-      val wordOfSaying = record.word
-
-      // if this word contains a comma, exclamation mark, or period, remove it!
-      if (wordOfSaying.contains(",") || wordOfSaying.contains("!") || wordOfSaying.contains(".")){
-        val cleanedWord = wordOfSaying
-                          .replace(",", "")
-                          .replace("!", "")
-                          .replace(".", "")
-
-        // Return the cleaned up word
-        Saying(cleanedWord)
-      }
-      else {
-
-        // No punctuation found, return the word as-is
-        Saying(wordOfSaying)
-      }
-    })
-
-    cleanedSaying.show()
-
-    // Analyze the cleaned up Saying by counting the occurrence of each word within
-    val analysis = cleanedSaying
-      .groupBy("word")
-      .agg("word" -> "count")
-      .orderBy($"count(word)".desc)
-
-    // Let's see those results!
-    analysis.show()
   }
 }
