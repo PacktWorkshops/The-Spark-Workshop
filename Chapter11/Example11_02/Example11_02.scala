@@ -12,10 +12,8 @@ object Example11_02 {
       .appName("My Spark App")
       .getOrCreate()
 
-    spark.sparkContext.setLogLevel("WARN")
-
     // create a dataset of animals with id, type and color
-val clients = Seq(Row(1, "dog", "brown", 1),
+    val clients = Seq(Row(1, "dog", "brown", 1),
                   Row(1, "dog", "brown", 2),
                   Row(3, "dog", "white", 6),
                   Row(3, "dog", "white", 8),
@@ -69,9 +67,6 @@ val otherDogsAvgAge = otherDogs.groupBy("color").agg("age" -> "avg")
 
 val combined = otherDogsAvgAge.union(brownDogsAvgAge)
 combined.show()
-
-
-
   }
 
 }
