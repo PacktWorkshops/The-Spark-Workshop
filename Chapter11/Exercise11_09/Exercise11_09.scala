@@ -12,8 +12,8 @@ object Exercise11_09 {
       .appName("My Spark App")
       .getOrCreate()
 
-    spark.sparkContext.setLogLevel("WARN")
     import spark.implicits._
+    
     val my_previous_pets = Seq(Row("fido", "dog", 4, "brown"),
                                Row("annabelle", "cat", 15, "white"),
                                Row("fred", "bear", 29, "brown"),
