@@ -1,6 +1,5 @@
 from pyspark.sql import SparkSession
 from pyspark.sql import Row
-from pyspark.sql.functions import col
 
 # Create a Spark Session
 spark = SparkSession \
@@ -22,19 +21,6 @@ my_previous_pets = [Row("annabelle", "cat"),
 # create RDDs
 petsRDD = sc.parallelize(my_previous_pets)
 
-# create data frames
-petsDF = spark.createDataFrame(petsRDD, ['nickname', 'type'])
-
-dogs = petsDF.where(col("type").isin("dog", "puppy", "puppy dog", "hound", "canine"))
-cats = petsDF.where(col("type").isin(["cat", "kitty", "kitten", "feline", "kitty cat"]))
-
-dogs.show()
-cats.show()
-
-
-def read(row): print(row[0] + " is a " + row[1])
-
-
 def standardize(pet):
 
     name = pet[0]
@@ -49,4 +35,5 @@ def standardize(pet):
 
 
 standardizedPets = petsRDD.map(standardize)
-standardizedPets.foreach(read)
+standardizedPetsDF = spark.createDataFrame(standardizedPets, ['nickname', 'type'])
+standardizedPetsDF.show()
