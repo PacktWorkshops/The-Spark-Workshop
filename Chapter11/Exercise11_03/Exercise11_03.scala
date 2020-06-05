@@ -29,20 +29,14 @@ object Exercise11_03 {
 
     // filter out any records where name column starts with "c"
     val nonCats = animalData.filter("name not like 'c%'")
+    nonCats.show()
 
     // or you can use the where method, which is an alias on the filter method
     val nonCatsTwo = animalData.where("name != 'cat'")
     nonCatsTwo.show()
 
-    nonCats.foreach(animal => {
-      println(s"I am a ${animal.get(0)}, which does not start with a 'c'.")
-    })
-
     val nonPets = animalData.filter("category != 'pet'")
-
-    nonPets.foreach(animal => {
-      println(s"I am no pet, for I am a ${animal.get(1)} ${animal.get(0)}!")
-    })
+    nonPets.show()
 
   }
 
