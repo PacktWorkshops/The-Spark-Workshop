@@ -22,13 +22,13 @@ object Exercise11_04 {
                                 Row("bear", "salmon"))
 
     // Establish schema for the animals data
-    val schema_Animals = List(
+    val schema_animals = List(
       StructField("name", StringType, nullable = true),
       StructField("category", StringType, nullable = true)
     )
 
     // Establish schema for the animal food data
-    val schema_WAE = List(
+    val schema_foods = List(
       StructField("animal", StringType, nullable = true),
       StructField("food", StringType, nullable = true)
     )
@@ -38,25 +38,15 @@ object Exercise11_04 {
     val animalFoodRDD = spark.sparkContext.parallelize(animal_foods)
 
     // Turn RDDs into DataFrames using schemas
-    val animalData = spark.createDataFrame(animalDataRDD, StructType(schema_Animals))
-    val animalFoods = spark.createDataFrame(animalFoodRDD, StructType(schema_WAE))
+    val animalData = spark.createDataFrame(animalDataRDD, StructType(schema_animals))
+    val animalFoods = spark.createDataFrame(animalFoodRDD, StructType(schema_foods))
 
-    // Join them together using the name of the animal as the join key
-//    val animals_enhanced = animalData.join(animalFoods, usingColumn = "name")
-    animalData.join(animalData, usingColumns = Seq("name", "category"))
+    // Join them together using the name of the animal as the join key for both DFs
     val animals_enhanced = animalData.join(animalFoods,
                                             joinExprs = col(colName = "name") === col(colName = "animal"),
                                             joinType = "left")
 
     animals_enhanced.show()
-
-    animals_enhanced.foreach(record => {
-      val name = record.getString(0)
-      val category = record.getString(1)
-      val food = record.getString(3)
-
-      println(s"The ${name}, in the ${category} category, eats ${food} most commonly.")
-    })
   }
 
 }
