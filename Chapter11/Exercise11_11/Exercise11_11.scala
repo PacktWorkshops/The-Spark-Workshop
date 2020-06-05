@@ -14,7 +14,6 @@ object Exercise11_11 {
       .appName("My Spark App")
       .getOrCreate()
 
-    spark.sparkContext.setLogLevel("WARN")
     import spark.implicits._
 
     // an example of a denormalized dataset
