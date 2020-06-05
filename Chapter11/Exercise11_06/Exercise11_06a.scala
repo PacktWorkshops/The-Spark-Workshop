@@ -33,30 +33,6 @@ object Exercise11_06a {
 
     dogs.show()
     cats.show()
-
-    case class Pet(nickname: String, petType: String)
-
-    val standardized_pets = petsDF.map(pet => {
-      val nickname = pet.getString(pet.fieldIndex("nickname"))
-      val petType = pet.getString(pet.fieldIndex("type"))
-
-      println(nickname, petType)
-      val standardType =
-        if (Seq("dog", "puppy", "puppy dog", "hound", "canine").contains(petType)){
-          "dog"
-        }
-        else if (Seq("cat", "kitty", "kitten", "feline", "kitty cat").contains(petType)){
-        "cat"
-        }
-      else{
-          petType
-        }
-
-      (nickname, standardType)
-    })
-
-    standardized_pets.show()
-
   }
 
 }
