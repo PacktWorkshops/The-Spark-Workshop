@@ -13,8 +13,6 @@ object Example11_01 {
       .appName("My Spark App")
       .getOrCreate()
 
-    spark.sparkContext.setLogLevel("WARN")
-
     // create a dataset of animals with id, type and color
     val clients = Seq(Row(1, "dog", "brown", 1),
                       Row(1, "dog", "brown", 2),
@@ -39,12 +37,9 @@ object Example11_01 {
     // create DataFrame
     val clientsDF = spark.createDataFrame(clientsRDD, StructType(schema))
 
-clientsDF.createOrReplaceTempView("dogs")
-
-spark.sql("select cast(avg(age) as INT) as average_age, color from dogs group by color order by average_age desc").show()
-
-
-
+    // create temp view and query it     
+    clientsDF.createOrReplaceTempView("dogs")
+    spark.sql("select cast(avg(age) as INT) as average_age, color from dogs group by color order by average_age desc").show()
   }
 
 }
