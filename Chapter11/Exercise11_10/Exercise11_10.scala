@@ -13,8 +13,6 @@ object Exercise11_10 {
       .appName("My Spark App")
       .getOrCreate()
 
-    spark.sparkContext.setLogLevel("WARN")
-
     // an example of a normalized dataset
     val animalsNormalized = Seq(Row("fido", 1, 4, 1),
                                       Row("annabelle", 2, 15, 2),
