@@ -4,8 +4,6 @@ import org.apache.spark.sql.SparkSession
 
 object Exercise11_12 {
 
-  case class Saying(word: String)
-
   def main(args: Array[String]): Unit = {
 
     // Build a SparkSession in Local Mode
