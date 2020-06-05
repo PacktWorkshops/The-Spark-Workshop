@@ -28,12 +28,6 @@ object Exercise11_06b {
     val petsRDD = spark.sparkContext.parallelize(my_previous_pets)
     val petsDF = spark.createDataFrame(petsRDD, StructType(schema))
 
-    val dogs = petsDF.where($"type".isin("dog", "puppy", "puppy dog", "hound", "canine"))
-    val cats = petsDF.where($"type".isin ("cat", "kitty", "kitten", "feline", "kitty cat"))
-
-    dogs.show()
-    cats.show()
-
     case class Pet(nickname: String, petType: String)
 
     val standardized_pets = petsDF.map(pet => {
