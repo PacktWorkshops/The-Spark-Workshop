@@ -1,11 +1,4 @@
 from pyspark.sql import SparkSession
-from pyspark.sql import Row
-
-
-# Function to read data in RDD
-def read(row): print(
-    "The " + row['name'] + ", in the " + row['category'] + " category, eats " + row['food'] + " most commonly.")
-
 
 # Create a Spark Session
 spark = SparkSession \
@@ -16,11 +9,6 @@ spark = SparkSession \
 
 # create spark contexts
 sc = spark.sparkContext
-
-
-def read(row): print(
-    "The " + row['name'] + ", in the " + row['category'] + " category, eats " + row['food'] + " most commonly.")
-
 
 # create a sample set of data as an RDD
 categorized_animals = [("dog", "pet"), ("cat", "pet"), ("bear", "wild")]
@@ -34,6 +22,6 @@ animalFoodRDD = sc.parallelize(animal_foods)
 animalData = spark.createDataFrame(animalDataRDD, ['name', 'category'])
 animalFoods = spark.createDataFrame(animalFoodRDD, ['animal', 'food'])
 
+# join them
 animals_enhanced = animalData.join(animalFoods, animalData.name == animalFoods.animal)
-animals_enhanced = animalData.join(animalFoods, on=['name', 'category'])
-animals_enhanced.foreach(read)
+animals_enhanced.show()
