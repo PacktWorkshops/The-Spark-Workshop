@@ -12,8 +12,8 @@ object Exercise11_07 {
       .appName("My Spark App")
       .getOrCreate()
 
-    spark.sparkContext.setLogLevel("WARN")
     import spark.implicits._
+    
     val my_previous_pets = Seq(Row("fido", "dog", 4, "brown"),
                                Row("annabelle", "cat", 15, "white"),
                                Row("fred", "bear", 29, "brown"),
@@ -36,7 +36,6 @@ object Exercise11_07 {
     val petsDF = spark.createDataFrame(petsRDD, StructType(schema))
 
     petsDF.createOrReplaceTempView("pets")
-    spark.sql("select nickname, age from pets where type = 'cat'").show()
 
     // option 1: pure sql
     spark.sql("select nickname as youngest_cat, min(age) as age from pets where type = 'cat' group by nickname order by age asc limit 1").show()
