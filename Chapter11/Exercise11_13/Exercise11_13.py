@@ -41,11 +41,13 @@ clientsRDD = sc.parallelize(clients)
 
 # create data frames
 clientsDF = spark.createDataFrame(clientsRDD, ['id', 'type', 'color', 'age'])
-clientsDF.registerTempTable('dogs')
 
-# slower due to skew in the 'brown' partition
-spark.sql("select cast(avg(age) as INT) as average_age, color "
-          "from dogs "
-          "group by color "
-          "order by average_age desc") \
-    .show()
+# faster due to repartitioning and splitting data for processing
+brownDogs = clientsDF.where("color = 'brown'").repartition(10)
+otherDogs = clientsDF.where("color != 'brown'")
+
+brownDogsAvgAge = brownDogs.groupBy("color").avg("age")
+otherDogsAvgAge = otherDogs.groupBy("color").avg("age")
+
+combined = otherDogsAvgAge.union(brownDogsAvgAge)
+combined.show()

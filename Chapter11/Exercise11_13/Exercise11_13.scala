@@ -1,7 +1,7 @@
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 import org.apache.spark.sql.{Row, SparkSession}
 
-object Example11_02 {
+object Exercise11_13 {
 
   def main(args: Array[String]): Unit = {
 
@@ -49,14 +49,15 @@ object Example11_02 {
     // create DataFrame
     val clientsDF = spark.createDataFrame(clientsRDD, StructType(schema))
 
-    clientsDF.createOrReplaceTempView("dogs")
+    // faster due to repartitioning and splitting data for processing
+    val brownDogs = clientsDF.where("color = 'brown'").repartition(10)
+    val otherDogs = clientsDF.where("color != 'brown'")
 
-// slower due to skew
-spark.sql("select avg(age) as average_age, " +
-  "color " +
-  "from dogs " +
-  "group by color " +
-  "order by average_age desc").show()
+    val brownDogsAvgAge = brownDogs.groupBy("color").agg("age" -> "avg")
+    val otherDogsAvgAge = otherDogs.groupBy("color").agg("age" -> "avg")
+
+    val combined = otherDogsAvgAge.union(brownDogsAvgAge)
+    combined.show()
   }
 
 }
