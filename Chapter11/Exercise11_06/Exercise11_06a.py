@@ -30,23 +30,3 @@ cats = petsDF.where(col("type").isin(["cat", "kitty", "kitten", "feline", "kitty
 
 dogs.show()
 cats.show()
-
-
-def read(row): print(row[0] + " is a " + row[1])
-
-
-def standardize(pet):
-
-    name = pet[0]
-    animal_type = pet[1]
-
-    if animal_type in ["dog", "puppy", "puppy dog", "hound", "canine"]:
-        return Row(name, "dog")
-    elif animal_type in ["cat", "kitty", "kitten", "feline", "kitty cat"]:
-        return Row(name, "cat")
-    else:
-        return pet
-
-
-standardizedPets = petsRDD.map(standardize)
-standardizedPets.foreach(read)
