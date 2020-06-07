@@ -26,7 +26,7 @@ def detect_language(text: str):
     return (languageName, score, text)
 
 
-#  ./spark-2.4.4-bin-hadoop2.7/bin/spark-submit --master local[1] IdeaProjects/The-Spark-Workshop/Chapter02/Activity2_02/Activity2_02.py /Users/a/Desktop/Buch/CC-MAIN-20191013195541-20191013222541-00000.warc
+#  ~/spark-2.4.5-bin-hadoop2.7/bin/spark-submit --master local[3] ~/IdeaProjects/The-Spark-Workshop/Chapter02/Activity2_02/Activity2_02.py ~/CC-MAIN-20191013195541-20191013222541-00000.warc ~/Act2.2PyOutput
 if __name__ == "__main__":
     session: SparkSession = SparkSession.builder \
         .appName('Crawl Tagger') \

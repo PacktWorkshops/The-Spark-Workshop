@@ -38,7 +38,7 @@ object Activity2_02 {
     (detected.getLanguage, detected.getRawScore)
   }
 
-  // ./spark-2.4.4-bin-hadoop2.7/bin/spark-submit --master local[1] --class Activity2_02.Activity2_02 IdeaProjects/The-Spark-Workshop/target/packt-uber-jar.jar  /Users/a/Desktop/Buch/CC-MAIN-20191013195541-20191013222541-00000.warc
+  //  ~/spark-2.4.5-bin-hadoop2.7/bin/spark-submit --master local[3] --class Activity2_02.Activity2_02 --driver-class-path /Users/a/.m2/repository/com/google/guava/guava/28.2-jre/guava-28.2-jre.jar:/Users/a/.m2/repository/org/apache/commons/commons-compress/1.20/commons-compress-1.20.jar target/packt-uber-jar.jar   ~/CC-MAIN-20191013195541-20191013222541-00000.warc ~/Act2.2Output
   def main(args: Array[String]): Unit = {
     implicit val session = SparkSession.builder
       .appName("Crawl Tagger")

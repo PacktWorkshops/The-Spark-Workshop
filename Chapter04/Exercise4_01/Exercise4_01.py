@@ -10,8 +10,8 @@ if __name__ == "__main__":
         .getOrCreate()
     session.sparkContext.setLogLevel('DEBUG')
 
-    input_loc_warc = '/Users/a/Desktop/Buch/CC-MAIN-20191013195541-20191013222541-00000.warc'
-    input_loc_wet = '/Users/a/Desktop/Buch/CC-MAIN-20191013195541-20191013222541-00000.warc.wet'
+    input_loc_warc = '/Users/a/CC-MAIN-20191013195541-20191013222541-00000.warc'
+    input_loc_wet = '/Users/a/CC-MAIN-20191013195541-20191013222541-00000.warc.wet'
 
     raw_records_warc: RDD = extract_raw_records(input_loc_warc, session)
     warc_records: RDD = raw_records_warc \

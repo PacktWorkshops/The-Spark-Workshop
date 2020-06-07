@@ -10,16 +10,30 @@
         <spark.version>2.4.5</spark.version>
     </properties>
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>org.apache.tika</groupId>-->
-<!--            <artifactId>tika-parsers</artifactId>-->
-<!--            <version>1.24.1</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.tika</groupId>-->
-<!--            <artifactId>tika-langdetect</artifactId>-->
-<!--            <version>1.24.1</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-parsers</artifactId>
+            <version>1.24.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-annotations</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-langdetect</artifactId>
+            <version>1.24.1</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.11</artifactId>
@@ -189,5 +203,4 @@
 
         </plugins>
     </build>
-
 </project>

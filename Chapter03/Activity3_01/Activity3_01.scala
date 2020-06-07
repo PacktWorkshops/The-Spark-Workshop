@@ -7,7 +7,7 @@ import org.apache.hadoop.io.Text
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
 
-object Activity1_03 extends App {
+object Activity3_01 extends App {
 
   val inputLocWarc = "/Users/a/Desktop/Buch/CC-MAIN-20191013195541-20191013222541-00000.warc"
   val inputLocWet = "/Users/a/Desktop/Buch/CC-MAIN-20191013195541-20191013222541-00000.warc.wet"
