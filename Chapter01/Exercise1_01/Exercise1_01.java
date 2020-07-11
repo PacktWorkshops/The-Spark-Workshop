@@ -15,7 +15,6 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import Utilities01.HelperJava;
 import static Utilities01.HelperJava.novellaPath;
-import static Utilities01.HelperJava.separator;
 
 /**
  * Implementation of WordCount in MapReduce

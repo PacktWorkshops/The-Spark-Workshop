@@ -1,7 +1,6 @@
 from pyspark.sql import SparkSession
 from Chapter01.utilities01_py.helper_python import create_session
-from Chapter02.utilities02_py.helper_python import extract_raw_records, parse_raw_warc
-from globalp.python.packtg.helper_python_global import sample_warc_loc
+from Chapter02.utilities02_py.helper_python import extract_raw_records, parse_raw_warc, sample_warc_loc
 import time
 import sys
 
