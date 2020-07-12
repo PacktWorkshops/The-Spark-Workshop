@@ -8,7 +8,7 @@ import java.util.*;
 
 import static Utilities01.HelperJava.createSession;
 
-public class MapClosureJava {
+public class Exercise1_02J {
     public static void main(String[] args) {
         List<String> words = new ArrayList<>(Arrays.asList("Settlements", "some", "centuries", "old", "and", "still", "no", "bigger", "than", "pinheads", "on", "the", "untouched", "expanse", "of", "their", "background"));
         SparkSession session = createSession(2, "Java map closure");
