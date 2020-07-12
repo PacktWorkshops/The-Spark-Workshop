@@ -7,7 +7,7 @@
     <artifactId>SparkWorkshop</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
-        <spark.version>2.4.5</spark.version>
+        <spark.version>2.4.6</spark.version>
     </properties>
     <dependencies>
         <dependency>
