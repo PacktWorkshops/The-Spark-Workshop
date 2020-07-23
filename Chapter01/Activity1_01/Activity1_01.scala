@@ -10,7 +10,7 @@ object Activity1_01 {
   def main(args: Array[String]): Unit = {
 
     val session: SparkSession = createSession(2, "Inverted Index")
-    val lines: RDD[String] = session.sparkContext.textFile("/Users/a/IdeaProjects/The-Spark-Workshop/resources/HoD_numbered.txt")
+    val lines: RDD[String] = session.sparkContext.textFile("resources/HoD_numbered.txt")
 
     val numberLine: RDD[(Int, String)] = lines
       .flatMap(numberLine => {
