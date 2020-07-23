@@ -89,6 +89,13 @@
             <artifactId>hadoop-mapreduce-client-core</artifactId>
             <version>2.8.5</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.scala-lang/scala-library -->
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.11.12</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -195,6 +202,7 @@
                                 <source>Chapter02</source>
                                 <source>Chapter03</source>
                                 <source>Chapter04</source>
+                                <source>Chapter08/</source>
                             </sources>
                         </configuration>
                     </execution>
