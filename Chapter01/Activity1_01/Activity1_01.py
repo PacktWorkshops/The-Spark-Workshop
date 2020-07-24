@@ -1,6 +1,5 @@
 from typing import Iterator, Set
 from pyspark.rdd import RDD
-import re
 from utilities01_py.helper_python import *
 
 
@@ -29,7 +28,7 @@ def comb_op(acc1: Set[int], acc2: Set[int]) -> Set[int]:
 
 
 if __name__ == "__main__":
-    session: SparkSession = create_session(2, "Invertd Index")
+    session: SparkSession = create_session(2, "Inverted Index")
     lines: RDD = session.sparkContext.textFile("/Users/a/IdeaProjects/The-Spark-Workshop/resources/HoD_numbered.txt")
 
     number_line = lines.flatMap(extract_linenumber)
