@@ -17,14 +17,9 @@ object HelperScala {
   val sampleWarcLoc = "/Users/a/IdeaProjects/The-Spark-Workshop/resources/webcorpus/warc.sample"
   val sampleWetLoc = "/Users/a/IdeaProjects/The-Spark-Workshop/resources/webcorpus/wet.sample"
 
-  val delimiterWarcWet = "WARC/1.0" // Wrong => Exception in thread "main" org.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 0.0 failed 1 times, most recent failure: Lost task 0.0 in stage 0.0 (TID 0, localhost, executor driver): java.lang.OutOfMemoryError: Java heap space
-  val delimiterWarcWetBytes: Array[Byte] = delimiterWarcWet.getBytes()
-  val blankLine: Regex = "(?m:^(?=[\r\n]))".r
-  val newLine = "[\\n\\r]+"
-
-  def callScalaMethod(): String = {
-    "This is the return value of a Scala method"
-  }
+  private val delimiterWarcWet = "WARC/1.0" // Wrong => Exception in thread "main" org.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 0.0 failed 1 times, most recent failure: Lost task 0.0 in stage 0.0 (TID 0, localhost, executor driver): java.lang.OutOfMemoryError: Java heap space
+  private val blankLine: Regex = "(?m:^(?=[\r\n]))".r
+  private val newLine = "[\\n\\r]+"
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -13,7 +13,6 @@ object Exercise2_01 {
     val records: RDD[String] = session.sparkContext.textFile(sampleWetLoc)
     // code for subsequent steps comes here
 
-
     records.take(50).foreach(record => {
       println(record)
       println("-" * 20)

@@ -7,7 +7,7 @@ import org.apache.spark.sql.SparkSession
 import Utilities01.HelperScala.createSession
 import Utilities02.HelperScala.sampleWetLoc
 
-object ProperParsing {
+object Exercise2_02 {
 
   def main(args: Array[String]) {
     val session: SparkSession = createSession(2, "Proper crawl parsing")

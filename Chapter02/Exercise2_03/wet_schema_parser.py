@@ -1,5 +1,5 @@
-from utilities01_py.helper_python import create_session
-from utilities02_py.helper_python import sample_wet_loc, extract_raw_records, parse_raw_wet
+from Chapter01.utilities01_py.helper_python import create_session
+from Chapter02.utilities02_py.helper_python import sample_wet_loc, extract_raw_records, parse_raw_wet
 
 if __name__ == "__main__":
     session = create_session(3, 'WET Parser')
