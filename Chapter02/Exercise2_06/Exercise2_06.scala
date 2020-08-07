@@ -19,7 +19,7 @@ object Exercise2_06 {
 
   def main(args: Array[String]): Unit = {
     implicit val session: SparkSession = SparkSession.builder
-      .appName("SubmitWithMaster")
+      .appName("Different Tasks")
       .getOrCreate()
     session.sparkContext.setLogLevel("ERROR")
 

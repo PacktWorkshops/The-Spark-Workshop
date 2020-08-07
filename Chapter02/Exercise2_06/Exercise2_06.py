@@ -2,6 +2,7 @@ from pyspark.sql import SparkSession
 from Chapter02.utilities02_py.helper_python import sample_warc_loc, extract_raw_records, parse_raw_warc
 from timeit import default_timer
 
+
 def heavy_computation():
     list = [1] * 1000
     total_sum = 0
@@ -9,9 +10,10 @@ def heavy_computation():
         total_sum += sum(list)
     return total_sum
 
+
 if __name__ == "__main__":
     session: SparkSession = SparkSession.builder \
-        .appName('SubmitWithMaster') \
+        .appName('Different Tasks') \
         .getOrCreate()
     session.sparkContext.setLogLevel('ERROR')  # avoids printing of info messages
 
