@@ -7,7 +7,7 @@ import re
 
 if __name__ == "__main__":
 
-    session: SparkSession = create_session(2, "Aggregation RDD")
+    session: SparkSession = create_session(2, "Web UI")
     lines: RDD = session.sparkContext.textFile(novella_location)
     tokens: RDD = lines.flatMap(lambda line: re.split('\\W+', line))
     # Aggregation code comes here
