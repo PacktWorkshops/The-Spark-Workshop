@@ -32,7 +32,7 @@ class Exercise3_03_Unit_Test extends SparkFunSuite with SharedSQLContext {
     val numberOfRecords: Long = warcRecords.count()
     val numberOfPartitions: Int = warcRecords.getNumPartitions
     println(s"@@ Number of records: $numberOfRecords")
-    println(s"@@ Number of partitions: $numberOfRecords")
+    println(s"@@ Number of partitions: $numberOfPartitions")
     assert(uniqueIdsMap.size.toDouble >= numberOfRecords.toDouble * 0.95D)
     assert(uniqueIdsMapPartition.size == numberOfPartitions)
     println(uniqueIdsMap)

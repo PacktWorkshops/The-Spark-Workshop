@@ -18,6 +18,7 @@ if __name__ == "__main__":
         .master('local[3, 3]') \
         .appName('Failure Exploration') \
         .getOrCreate()
+    session.sparkContext.setLogLevel('ERROR')
 
     session.sparkContext._gateway.start_callback_server()
     java_process = launch_gateway()
@@ -26,7 +27,7 @@ if __name__ == "__main__":
     listener = RetryListener()
     session.sparkContext._jsc.sc().addSparkListener(listener)
 
-    input_warc = '/Users/a/Desktop/Buch/CC-MAIN-20191013195541-20191013222541-00000.warc'  # ToDo: Change path
+    input_warc = '/Users/a/CC-MAIN-20191013195541-20191013222541-00000.warc'  # ToDo: Change path
     raw_records = extract_raw_records(input_warc, session)
     warc_records = raw_records.flatMap(parse_method)
     print(warc_records.count())
