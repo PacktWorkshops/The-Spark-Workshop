@@ -1,0 +1,6 @@
+dfTran01.sort(col("city") === "Phoenix").show()
+dfTran01.filter(dfTran01("city") === "Phoenix").show()
+dfTran01.filter($"city" === "Phoenix").show()
+dfTran01.where(col("city") === "Phoenix").show()
+dfTran01.where(dfTran01("city") === "Phoenix").show()
+dfTran01.where($"city" === "Phoenix").show()
