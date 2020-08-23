@@ -24,4 +24,4 @@ if __name__ == "__main__":
     start_time = default_timer()
     invoked_heavy_rdd.foreach(lambda record: None)
     end_time = default_timer()
-    print(str(end_time - start_time))
+    print('Time taken: ' + str(end_time - start_time))
