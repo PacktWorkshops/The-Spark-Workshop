@@ -1,5 +1,4 @@
 package Activity3_01
-
 import org.apache.hadoop.io.Text
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
@@ -11,7 +10,7 @@ object Activity3_01 {
   def main(args: Array[String]): Unit = {
     val inputLocWarc = "/Users/a/CC-MAIN-20191013195541-20191013222541-00000.warc" // ToDo: Modify Path
     val inputLocWet = "/Users/a/CC-MAIN-20191013195541-20191013222541-00000.warc.wet" // ToDo: Modify Path
-    implicit val session: SparkSession = createSession(3, "Activity 1")
+    implicit val session: SparkSession = createSession(3, "Activity 3.1")
 
     val rawRecordsWarc: RDD[Text] = extractRawRecords(inputLocWarc)
     val warcRecords: RDD[WarcRecord] = rawRecordsWarc
@@ -25,8 +24,7 @@ object Activity3_01 {
     val pairWet = wetRecords
       .map(wet => (wet.targetURI, wet.plainText))
 
-    val joined = pairWarc.join(pairWet, 39) //     val joined = pairWarc.join(pairWet, numPartitions=11)
-
+    val joined = pairWarc.join(pairWet, 14)
 
     println(joined.count())
     Thread.sleep(1000L * 60L * 100L) // For exploring WebUI
