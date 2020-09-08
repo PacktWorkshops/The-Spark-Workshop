@@ -5,4 +5,5 @@ spark = SparkSession \
   .enableHiveSupport() \
   .getOrCreate()
 
-spark.sql("select * from zipcodes").show()
+dfHive = spark.sql("select * from zipcodes")
+dfHive.show()

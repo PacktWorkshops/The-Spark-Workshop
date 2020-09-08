@@ -5,4 +5,4 @@ sparkMongoSession = SparkSession.builder() \
    .config("spark.mongodb.output.uri","mongodb://127.0.0.1/test.zipcodes") \
    .getOrCreate()
 
-val dfMongo01 = sparkMongoSession.read.format("mongo").load()
+dfMongo01 = sparkMongoSession.read.format("mongo").load()
