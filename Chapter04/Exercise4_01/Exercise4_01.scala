@@ -29,7 +29,7 @@ object Exercise4_01 {
     val joined = uriKeyedWarc.join(uriKeyedWet)
 
     println(joined.count())
-    Thread.sleep(300L * 1000L)
+    Thread.sleep(10L * 60L * 1000L)
 
   }
 

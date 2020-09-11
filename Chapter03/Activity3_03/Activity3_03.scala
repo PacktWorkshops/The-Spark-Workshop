@@ -14,7 +14,6 @@ import org.apache.tika.sax.BodyContentHandler
 object Activity3_03 {
 
   def tagRecords(partition: Iterator[WarcRecord]): Iterator[(String, String, Float)] = {
-    val textHandler = new BodyContentHandler(-1) // -1 skips document length limit
     val metadata = new Metadata()
     val parser = new HtmlParser()
     val context = new ParseContext()
@@ -24,10 +23,10 @@ object Activity3_03 {
     partition.flatMap(record => {
       val html = record.htmlSource
       if (html.nonEmpty) {
+        val textHandler = new BodyContentHandler(-1) // -1 skips document length limit
         parser.parse(IOUtils.toInputStream(html, "UTF-8"), textHandler, metadata, context)
         val extractedText = textHandler.toString.trim.replaceAll("\\s+", " ")
         val detected = languageIdentifier.detect(extractedText)
-        println(record.targetURI, detected.getLanguage, detected.getRawScore)
         Some(record.targetURI, detected.getLanguage, detected.getRawScore)
       }
       else

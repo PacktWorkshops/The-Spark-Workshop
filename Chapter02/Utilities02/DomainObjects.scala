@@ -48,7 +48,7 @@ object WarcRecord {
     WarcRecord(warcType, dateS, recordID, contentLength, contentType, infoID, concurrentTo, ip, targetURI, payloadDigest, blockDigest, payloadType, responseMeta._1, responseMeta._2, responseMeta._3, sourceHtml)
   }
 
-  def createDummyObject() = WarcRecord("warcType", 1L, "recordID", 2, "contentType", "infoID", "concurrentTo", "ip", "targetURI", "payloadDigest", "blockDigest", "payloadType", "htmlContentType", Some("language"), 3, "htmlSource")
+  def createDummy() = WarcRecord("warcType", 1L, "recordID", 2, "contentType", "infoID", "concurrentTo", "ip", "targetURI", "payloadDigest", "blockDigest", "payloadType", "htmlContentType", Some("language"), 3, "htmlSource")
 
 }
 

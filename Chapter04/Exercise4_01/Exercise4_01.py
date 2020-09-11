@@ -1,7 +1,8 @@
+import time
+from sys import argv
 from pyspark import RDD
 from pyspark.sql import SparkSession
 from Chapter02.utilities02_py.helper_python import extract_raw_records, parse_raw_warc, parse_raw_wet
-import time
 
 if __name__ == "__main__":
     session: SparkSession = SparkSession.builder \
@@ -10,8 +11,8 @@ if __name__ == "__main__":
         .getOrCreate()
     session.sparkContext.setLogLevel('DEBUG')
 
-    input_loc_warc = '/Users/a/CC-MAIN-20191013195541-20191013222541-00000.warc'
-    input_loc_wet = '/Users/a/CC-MAIN-20191013195541-20191013222541-00000.warc.wet'
+    input_loc_warc = argv[1]
+    input_loc_wet = argv[2]
 
     raw_records_warc: RDD = extract_raw_records(input_loc_warc, session)
     warc_records: RDD = raw_records_warc \
@@ -29,4 +30,4 @@ if __name__ == "__main__":
     joined = uri_keyed_warc.join(uri_keyed_wet)
 
     print(joined.count())
-    time.sleep(60 * 10)
+    time.sleep(10 * 60)
