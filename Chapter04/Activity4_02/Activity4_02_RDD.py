@@ -1,6 +1,6 @@
 import time
 from pyspark import RDD
-from pyspark.sql import SparkSession
+from pyspark.sql import SparkSession, DataFrame
 from Chapter01.utilities01_py.helper_python import create_session
 from Chapter02.utilities02_py.helper_python import extract_raw_records, parse_raw_warc, parse_raw_wet
 

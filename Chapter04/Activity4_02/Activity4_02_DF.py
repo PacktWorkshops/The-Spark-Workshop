@@ -20,5 +20,4 @@ if __name__ == "__main__":
     joined_df = warc_records_df.join(wet_records_df, ['target_uri'])
     spanish_records = joined_df.filter(col('language') == 'es')
 
-    print(spanish_records.count())
     time.sleep(10 * 60)  # For exploring WebUI

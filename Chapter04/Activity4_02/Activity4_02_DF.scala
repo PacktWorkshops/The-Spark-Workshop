@@ -20,7 +20,7 @@ object Activity4_02_DF {
     val wetRecordsDf: DataFrame = wetRecords.toDF().select("targetURI", "plainText")
 
     val joinedDf = warcRecordsDf.join(wetRecordsDf, Seq("targetURI"))
-    val spanishRecords = joinedDf.filter('language === "es") // median shuffle read 32.7 MB / 22412
+    val spanishRecords = joinedDf.filter('language === "es")
 
     println(spanishRecords.count())
     Thread.sleep(1000L * 60L * 100L) // For exploring WebUI
