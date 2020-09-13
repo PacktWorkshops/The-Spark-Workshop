@@ -8,7 +8,7 @@ object ScalaObject {
     val scalaRDD: RDD[Any] = rdd.rdd
     scalaRDD.map(record => {
       println("@@ Executing Scala code")
-      record + "_executedInScala"
+      record + "_executedOnScalaSide"
     })
   }
 }
