@@ -1,4 +1,4 @@
-package Chapter04.Activity4_01
+package Chapter04.Activity4_02
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{DataFrame, SparkSession}

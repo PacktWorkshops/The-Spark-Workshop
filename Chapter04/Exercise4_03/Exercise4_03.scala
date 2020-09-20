@@ -1,4 +1,4 @@
-package Chapter04.Exercise4_07
+package Chapter04.Exercise4_03
 
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.rdd.RDD
@@ -8,9 +8,10 @@ import Utilities01.HelperScala.createSession
 import Utilities02.HelperScala.{extractRawRecords, parseRawWarc, sampleWarcLoc}
 
 
-object Exercise4_07 {
+object Exercise4_03 {
   def main(args: Array[String]): Unit = {
     implicit val session: SparkSession = createSession(3, "Query Plans")
+    session.sparkContext.setLogLevel("TRACE")
     import session.implicits._
 
     val langTagMapping = Seq[(String, String)](("en","english"),("pt-pt","portugese"),("cs","czech"),("de","german"),("es","spanish"), ("eu","basque"),("it","italian"),("hu","hungarian"),("pt-br","portugese"),("fr","french"),("en-US","english"),("zh-TW","chinese"))

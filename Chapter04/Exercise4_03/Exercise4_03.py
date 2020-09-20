@@ -7,14 +7,14 @@ from Chapter02.utilities02_py.helper_python import extract_raw_records, parse_ra
 
 if __name__ == "__main__":
     session: SparkSession = create_session(3, "Query Plans")
-
+    session.sparkContext.setLogLevel("TRACE")
     lang_tag_mapping = [('en','english'),('pt-pt','portugese'),('cs','czech'),('de','german'),('es','spanish'),('eu','basque'),('it','italian'),('hu','hungarian'),('pt-br','portugese'),('fr','french'),('en-US','english'),('zh-TW','chinese')]
     lang_tag_df = session.createDataFrame(lang_tag_mapping, ['tag', 'language'])
     session.createDataFrame(lang_tag_mapping).show()
     raw_records = extract_raw_records(sample_warc_loc, session)
     warc_records_rdd: RDD = raw_records.flatMap(parse_raw_warc)
     warc_records_df: DataFrame = warc_records_rdd.toDF()\
-        .select(col('language'), col('target_uri'))\
+        .select(col('target_uri'), col('language'))\
         .filter(col('language') != '')
 
     aggregated = warc_records_df\
