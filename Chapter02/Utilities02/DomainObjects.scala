@@ -47,9 +47,6 @@ object WarcRecord {
 
     WarcRecord(warcType, dateS, recordID, contentLength, contentType, infoID, concurrentTo, ip, targetURI, payloadDigest, blockDigest, payloadType, responseMeta._1, responseMeta._2, responseMeta._3, sourceHtml)
   }
-
-  def createDummy() = WarcRecord("warcType", 1L, "recordID", 2, "contentType", "infoID", "concurrentTo", "ip", "targetURI", "payloadDigest", "blockDigest", "payloadType", "htmlContentType", Some("language"), 3, "htmlSource")
-
 }
 
 case class WetRecord(warcType: String, targetURI: String, dateS: Long, recordID: String, refersTo: String, blockDigest: String, contentType: String, contentLength: Int, plainText: String)
@@ -60,5 +57,9 @@ object WetRecord {
     val refersTo = metaPairs.getOrElse("WARC-Refers-To", "")
     WetRecord(warcType, targetURI, dateS, recordID, refersTo, blockDigest, contentType, contentLength, pageContent)
   }
+
+  import java.util.UUID.randomUUID
+  import scala.util.Random
+  def createDummy() = WetRecord(randomUUID().toString, randomUUID().toString, System.currentTimeMillis(), randomUUID().toString, randomUUID().toString, randomUUID().toString, randomUUID().toString, Random.nextInt(), randomUUID().toString)
 
 }
